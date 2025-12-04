@@ -4,6 +4,7 @@ export const authStyles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "#f8f8f8",
+    fontFamily: "FixelDisplayMedium",
   },
   imageContainer: {
     flex: 1,
@@ -18,6 +19,7 @@ export const authStyles = StyleSheet.create({
     marginTop: 16,
     color: "rgba(18, 20, 23, 0.8)",
     fontSize: 14,
+    fontFamily: "FixelDisplayRegular",
   },
   keyboardContainer: {
     flex: 1,
@@ -38,12 +40,14 @@ export const authStyles = StyleSheet.create({
     lineHeight: 32,
     letterSpacing: -0.6,
     color: "#121417",
+    fontFamily: "FixelDisplaySemiBold",
   },
   description: {
     color: "rgba(18, 20, 23, 0.8)",
     marginBottom: 16,
     fontSize: 16,
     lineHeight: 24,
+    fontFamily: "FixelDisplayRegular",
   },
   input: {
     backgroundColor: "transparent",
@@ -55,6 +59,7 @@ export const authStyles = StyleSheet.create({
     marginBottom: 14,
     fontSize: 16,
     color: "#121417",
+    fontFamily: "FixelDisplayRegular",
   },
   button: {
     backgroundColor: "#85aa9f",
@@ -67,6 +72,7 @@ export const authStyles = StyleSheet.create({
     color: "#fcfcfc",
     fontSize: 16,
     lineHeight: 24,
+    fontFamily: "FixelDisplayBold",
   },
   register: {
     marginTop: 16,
@@ -75,6 +81,7 @@ export const authStyles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     textDecorationLine: "underline",
+    fontFamily: "FixelDisplayBold",
   },
   //PasswordInput
   passwordContainer: {
