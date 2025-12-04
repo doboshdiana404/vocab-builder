@@ -1,10 +1,8 @@
-//wordsApi
 
 import { baseApi } from "../baseApi";
 
 export const wordsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // ---------------- OWN WORDS ----------------
     getWords: builder.query({
       query: ({
         keyword = "",
@@ -37,7 +35,6 @@ export const wordsApi = baseApi.injectEndpoints({
           : [{ type: "Words", id: "LIST" }],
     }),
 
-    // ---------------- ALL USERS' WORDS ----------------
     getAllWords: builder.query({
       query: ({
         keyword = "",
@@ -58,7 +55,6 @@ export const wordsApi = baseApi.injectEndpoints({
         };
       },
 
-      // використовуємо ті ж теги
       providesTags: (result) =>
         result?.results
           ? [
@@ -71,7 +67,6 @@ export const wordsApi = baseApi.injectEndpoints({
           : [{ type: "Words", id: "LIST" }],
     }),
 
-    // ---------------- CREATE WORD ----------------
     addWord: builder.mutation({
       query: (body) => ({
         url: "/words/create",
@@ -81,7 +76,6 @@ export const wordsApi = baseApi.injectEndpoints({
       invalidatesTags: [{ type: "Words", id: "LIST" }, "Statistics"],
     }),
 
-    // ---------------- DELETE WORD ----------------
     deleteWord: builder.mutation({
       query: (id) => ({
         url: `/words/delete/${id}`,

@@ -1,9 +1,9 @@
 import { Text } from "react-native";
 
-export default function HomeScreen() {
+export default function TrainingScreen() {
   return (
     <>
-      <Text>Dictionary</Text>
+      <Text>Training</Text>
     </>
   );
 }
