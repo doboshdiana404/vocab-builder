@@ -1,3 +1,4 @@
+import PasswordInput from "@/src/components/ui/PasswordInput/PasswordInput";
 import { useRegisterMutation } from "@/src/store/api";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -43,7 +44,6 @@ export default function RegisterScreen() {
       router.replace("/(tabs)");
     }
   }, [isSuccess]);
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.root}>
@@ -80,14 +80,7 @@ export default function RegisterScreen() {
               value={email}
               onChangeText={setEmail}
             />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor="#121417"
-              value={password}
-              secureTextEntry
-              onChangeText={setPassword}
-            />
+            <PasswordInput value={password} onChangeText={setPassword} />
 
             {error && <Text style={{ color: "red" }}>Registration failed</Text>}
             {isLoading && <Text>Loading...</Text>}

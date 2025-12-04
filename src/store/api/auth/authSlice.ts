@@ -1,8 +1,9 @@
+//authSlice
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
-  id: string;
+  id?: string;
   name?: string;
   email?: string;
 }
@@ -28,9 +29,8 @@ const authSlice = createSlice({
       action: PayloadAction<{ token: string; user: User }>
     ) => {
       state.token = action.payload.token;
-      state.user = action.payload.user;
 
-      // Зберігаємо в AsyncStorage (не чекаємо await — це sync reducer)
+      state.user = action.payload.user;
       AsyncStorage.setItem(
         "auth",
         JSON.stringify({

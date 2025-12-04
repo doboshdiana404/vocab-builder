@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { authStyles as styles } from "../../src/styles/authStyles";
 
-import { useLoginMutation, wordsApi } from "@/src/store/api";
-import { setCredentials } from "@/src/store/api/auth/authSlice";
+import PasswordInput from "@/src/components/ui/PasswordInput/PasswordInput";
+import { useLoginMutation } from "@/src/store/api";
 import {
   Image,
   Keyboard,
@@ -19,22 +19,25 @@ import { useDispatch } from "react-redux";
 
 export default function LoginScreen() {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
-  const [login, { isLoading, error }] = useLoginMutation();
-
+  const [login, { isLoading, error, isSuccess }] = useLoginMutation();
   const handleLogin = async () => {
     try {
-      const userData = await login({ email, password }).unwrap();
-      dispatch(setCredentials(userData));
-      dispatch(wordsApi.util.invalidateTags(["Words"]));
+      await login({ email, password }).unwrap();
       router.replace("/(tabs)");
     } catch (e) {
       console.error("Login failed", e);
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.replace("/(tabs)");
+    }
+  }, [isSuccess]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -54,32 +57,33 @@ export default function LoginScreen() {
           keyboardVerticalOffset={Platform.OS === "ios" ? -10 : -20}
           style={styles.keyboardContainer}
         >
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#121417"
-            value={password}
-            secureTextEntry
-            onChangeText={setPassword}
-          />
+          <View style={styles.formContainer}>
+            <Text style={styles.loginTitle}>Login</Text>
+            <Text style={styles.description}>
+              Please enter your login details to continue using our service:
+            </Text>
 
-          {error && (
-            <Text style={{ color: "red" }}>Invalid email or password</Text>
-          )}
-          {isLoading && <Text>Loading...</Text>}
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor="#121417"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <PasswordInput value={password} onChangeText={setPassword} />
 
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push("/register")}>
-            <Text style={styles.register}>Register</Text>
-          </TouchableOpacity>
+            {error && (
+              <Text style={{ color: "red" }}>Invalid email or password</Text>
+            )}
+            {isLoading && <Text>Loading...</Text>}
+
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push("/register")}>
+              <Text style={styles.register}>Register</Text>
+            </TouchableOpacity>
+          </View>
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
