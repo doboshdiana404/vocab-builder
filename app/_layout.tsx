@@ -1,9 +1,13 @@
+import AuthGate from "@/src/components/AuthGate";
 import { store } from "@/src/store/store";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
+export const unstable_settings = {
+  anchor: "(tabs)",
+};
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -26,11 +30,14 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
   return (
     <Provider store={store}>
-      <Stack>
-        <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="register" options={{ headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" />
+      <AuthGate>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+          <Stack.Screen name="register" options={{ headerShown: false }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </AuthGate>
     </Provider>
   );
 }
