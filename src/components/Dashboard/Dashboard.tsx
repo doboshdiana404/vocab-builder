@@ -5,8 +5,9 @@ import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
 import Plus from "@/assets/icons/plus.svg";
 import Search from "@/assets/icons/search.svg";
 
-import { useGetStatisticsQuery } from "@/src/store/api";
+import { useGetCategoriesQuery, useGetStatisticsQuery } from "@/src/store/api";
 import { useRouter, useSegments } from "expo-router";
+import CategoryPicker from "../ui/CategoryPicker/CategoryPicker";
 import { dashboardStyles as styles } from "./dashboardStyles";
 
 interface Category {
@@ -16,22 +17,57 @@ interface Category {
 interface DashboardProps {
   search: string;
   setSearch: (v: string) => void;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  category: string | null;
+  setCategory: (v: string | null) => void;
 }
 
-export default function Dashboard({ search, setSearch }: DashboardProps) {
+export default function Dashboard({
+  search,
+  setSearch,
+  open,
+  setOpen,
+  category,
+  setCategory,
+}: DashboardProps) {
   const router = useRouter();
   const segments = useSegments();
   const currentScreen = segments[segments.length - 1];
 
+  const { data: categories = [], isLoading: isCategoriesLoading } =
+    useGetCategoriesQuery(null);
   const { data: stats } = useGetStatisticsQuery(null);
-
+  const [items, setItems] = useState<{ label: string; value: string | null }[]>(
+    []
+  );
   const [tempSearch, setTempSearch] = useState(search);
+  useEffect(() => {
+    if (!isCategoriesLoading && categories.length) {
+      const mapped = [
+        { label: "All", value: null },
+        ...categories.map((cat: Category) => ({
+          label: cat,
+          value: cat,
+        })),
+      ];
 
+      setItems(mapped);
+
+      if (!category) setCategory(null);
+    }
+  }, [categories, isCategoriesLoading]);
+  useEffect(() => {
+    const timeout = setTimeout(() => setSearch(tempSearch), 400);
+    return () => clearTimeout(timeout);
+  }, [tempSearch]);
   useEffect(() => {
     setTempSearch("");
     setSearch("");
   }, [currentScreen]);
-
+  const handleCategoryChange = (selectedCategory: string | null) => {
+    setCategory(selectedCategory);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.inputWrapper}>
@@ -50,10 +86,16 @@ export default function Dashboard({ search, setSearch }: DashboardProps) {
           onChangeText={setTempSearch}
         />
       </View>
-
+      <CategoryPicker
+        open={open}
+        setOpen={setOpen}
+        value={category}
+        setValue={handleCategoryChange}
+        items={items}
+      />
       <View style={styles.statistics}>
         <Text style={styles.studyText}>
-          To study:{" "}
+          To study:
           <Text style={styles.studyCount}>{stats?.totalCount ?? 0}</Text>
         </Text>
       </View>
