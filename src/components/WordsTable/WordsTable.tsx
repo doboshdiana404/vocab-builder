@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Alert, FlatList, View } from "react-native";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 
-import useColumnWidths from "./useColumnWidths";
+import WordActionsModal from "./WordActionsModal";
 import WordRow from "./WordRow";
 import WordsHeader from "./WordsHeader";
+import useColumnWidths from "./useColumnWidths";
 
 import { useDeleteWordMutation } from "@/src/store/api";
 import WordsPagination from "../WordsPagination/WordsPagination";
 import type { Word, WordsTableProps } from "./types";
-import WordActionsModal from "./WordActionsModal";
 
 export default function WordsTable({
   words,
@@ -18,6 +18,8 @@ export default function WordsTable({
   page,
   totalPages,
   setPage,
+  mode,
+  onAdd,
 }: WordsTableProps) {
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -72,7 +74,9 @@ export default function WordsTable({
           />
         )}
       />
+
       <WordsPagination page={page} totalPages={totalPages} setPage={setPage} />
+
       <WordActionsModal
         isVisible={isModalVisible}
         position={modalPos}

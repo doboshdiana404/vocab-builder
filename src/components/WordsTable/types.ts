@@ -14,5 +14,5 @@ export interface WordsTableProps {
   page: number;
   totalPages: number;
   setPage: (page: number) => void;
-  mode: "own" | "all";
+  mode?: "own" | "all";
 }

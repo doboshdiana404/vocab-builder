@@ -5,6 +5,8 @@ import { RootState } from "@/src/store/store";
 import { useState } from "react";
 import { ActivityIndicator, ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
+import { Word } from "../../src/components/WordsTable/types";
+import EditWordModal from "@/src/components/EditWordModal/EditWordModal";
 
 export default function HomeScreen() {
   const token = useSelector((state: RootState) => state.auth.token);
@@ -14,15 +16,24 @@ export default function HomeScreen() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
 
+  const [wordToEdit, setWordToEdit] = useState<Word | null>(null);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+
   const [verbType, setVerbType] = useState<string | null>(null);
   const { data, isLoading, refetch } = useGetWordsQuery(
     {
       ...(search ? { keyword: search } : {}),
       ...(category ? { category } : {}),
       ...(verbType ? { isIrregular: verbType === "irregular" } : {}),
+      page,
+      limit: 7,
     },
     { skip: !token }
   );
+  const handleEdit = (word: Word) => {
+    setWordToEdit(word);
+    setEditModalVisible(true);
+  };
   return (
     <View style={{ flex: 1, backgroundColor: "#f9fafb", position: "relative" }}>
       <ScrollView
@@ -38,13 +49,15 @@ export default function HomeScreen() {
           setCategory={setCategory}
           verbType={verbType}
           setVerbType={setVerbType}
+          page={page}
+          setPage={setPage}
         />
         {isLoading ? (
           <ActivityIndicator size="large" style={{ marginTop: 20 }} />
         ) : (
           <WordsTable
             words={data?.results ?? []}
-            onEdit={console.log("modal edit")}
+            onEdit={handleEdit}
             onRefresh={refetch}
             page={page}
             totalPages={data?.totalPages ?? 1}
@@ -52,6 +65,13 @@ export default function HomeScreen() {
           />
         )}
       </ScrollView>
+      {wordToEdit && (
+        <EditWordModal
+          visible={editModalVisible}
+          onClose={() => setEditModalVisible(false)}
+          word={wordToEdit}
+        />
+      )}
     </View>
   );
 }

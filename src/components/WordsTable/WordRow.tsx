@@ -11,7 +11,9 @@ interface Props {
   colTranslation: number;
   colProgress: number;
   colActions: number;
+  mode?: "own" | "all";
   onEllipsisPress: (pos: { top: number; left: number }, word: Word) => void;
+  onAdd?: (word: Word) => Promise<boolean> | boolean;
 }
 
 export default function WordRow({
@@ -43,7 +45,7 @@ export default function WordRow({
       </Text>
 
       <View style={[styles.cell, { width: colProgress, alignItems: "center" }]}>
-        <ProgressBar progress={item.progress} size={24} />{" "}
+        <ProgressBar progress={item.progress} size={24} />
       </View>
 
       <View style={[styles.cell, styles.lastCell, { width: colActions }]}>

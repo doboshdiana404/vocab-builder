@@ -59,4 +59,9 @@ export const dashboardStyles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
   },
+  irregularDescription: {
+    color: "#121417",
+    fontSize: 10,
+    fontFamily: "FixelDisplayRegular",
+  },
 });

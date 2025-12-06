@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 
 interface Props {

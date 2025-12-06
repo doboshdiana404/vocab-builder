@@ -1,5 +1,6 @@
 import AuthGate from "@/src/components/AuthGate";
 import { store } from "@/src/store/store";
+import { PortalProvider } from "@gorhom/portal";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -30,17 +31,19 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
   return (
     <Provider store={store}>
-      <AuthGate>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="login/index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="register/index"
-            options={{ headerShown: false }}
-          />
-        </Stack>
-        <StatusBar style="auto" />
-      </AuthGate>
+      <PortalProvider>
+        <AuthGate>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="login/index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="register/index"
+              options={{ headerShown: false }}
+            />
+          </Stack>
+          <StatusBar style="auto" />
+        </AuthGate>
+      </PortalProvider>
     </Provider>
   );
 }

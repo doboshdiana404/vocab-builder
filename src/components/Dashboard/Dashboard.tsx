@@ -24,6 +24,8 @@ interface DashboardProps {
   setCategory: (v: string | null) => void;
   verbType: string | null;
   setVerbType: React.Dispatch<React.SetStateAction<string | null>>;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function Dashboard({
@@ -35,6 +37,8 @@ export default function Dashboard({
   setCategory,
   verbType,
   setVerbType,
+  page,
+  setPage,
 }: DashboardProps) {
   const router = useRouter();
   const segments = useSegments();
@@ -72,6 +76,10 @@ export default function Dashboard({
   }, [currentScreen]);
   const handleCategoryChange = (selectedCategory: string | null) => {
     setCategory(selectedCategory);
+    if (selectedCategory === null) {
+      setVerbType(null);
+    }
+    setPage(1);
   };
   return (
     <View style={styles.container}>
@@ -91,6 +99,7 @@ export default function Dashboard({
           onChangeText={setTempSearch}
         />
       </View>
+
       <CategoryPicker
         open={open}
         setOpen={setOpen}
@@ -98,19 +107,14 @@ export default function Dashboard({
         setValue={handleCategoryChange}
         items={items}
       />
+
       {category?.toLowerCase() === "verb" ? (
         <>
           <VerbTypeSelector verbType={verbType} setVerbType={setVerbType} />
 
           <View style={{ marginTop: 8 }}>
             {verbType === "irregular" ? (
-              <Text
-                style={{
-                  color: "#121417",
-                  fontSize: 10,
-                  fontFamily: "FixelDisplayRegular",
-                }}
-              >
+              <Text style={styles.irregularDescription}>
                 Such data must be entered in the format I form-II form-III form.
               </Text>
             ) : (
