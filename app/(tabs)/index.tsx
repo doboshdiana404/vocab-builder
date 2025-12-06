@@ -12,6 +12,8 @@ export default function HomeScreen() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
+
   const [verbType, setVerbType] = useState<string | null>(null);
   const { data, isLoading, refetch } = useGetWordsQuery(
     {
@@ -44,6 +46,9 @@ export default function HomeScreen() {
             words={data?.results ?? []}
             onEdit={console.log("modal edit")}
             onRefresh={refetch}
+            page={page}
+            totalPages={data?.totalPages ?? 1}
+            setPage={setPage}
           />
         )}
       </ScrollView>

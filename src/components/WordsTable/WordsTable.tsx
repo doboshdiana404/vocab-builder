@@ -7,6 +7,7 @@ import WordRow from "./WordRow";
 import WordsHeader from "./WordsHeader";
 
 import { useDeleteWordMutation } from "@/src/store/api";
+import WordsPagination from "../WordsPagination/WordsPagination";
 import type { Word, WordsTableProps } from "./types";
 import WordActionsModal from "./WordActionsModal";
 
@@ -14,6 +15,9 @@ export default function WordsTable({
   words,
   onEdit,
   onRefresh,
+  page,
+  totalPages,
+  setPage,
 }: WordsTableProps) {
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -68,6 +72,7 @@ export default function WordsTable({
           />
         )}
       />
+      <WordsPagination page={page} totalPages={totalPages} setPage={setPage} />
       <WordActionsModal
         isVisible={isModalVisible}
         position={modalPos}
