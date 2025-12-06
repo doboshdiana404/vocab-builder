@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Alert, FlatList, View } from "react-native";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 
-import WordActionsModal from "./WordActionsModal";
+import useColumnWidths from "./useColumnWidths";
 import WordRow from "./WordRow";
 import WordsHeader from "./WordsHeader";
-import useColumnWidths from "./useColumnWidths";
 
 import { useDeleteWordMutation } from "@/src/store/api";
 import type { Word, WordsTableProps } from "./types";
+import WordActionsModal from "./WordActionsModal";
 
 export default function WordsTable({
   words,
@@ -67,6 +67,13 @@ export default function WordsTable({
             onEllipsisPress={handleEllipsisPress}
           />
         )}
+      />
+      <WordActionsModal
+        isVisible={isModalVisible}
+        position={modalPos}
+        onClose={() => setModalVisible(false)}
+        onEdit={() => selectedWord && onEdit?.(selectedWord)}
+        onDelete={handleDelete}
       />
     </View>
   );
