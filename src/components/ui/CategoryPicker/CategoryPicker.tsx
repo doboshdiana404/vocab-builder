@@ -3,15 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { styles } from "./CategoryPicker.styles";
-type ItemType = { label: string; value: string | null };
-
-type Props = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  value: string | null;
-  setValue: any;
-  items: ItemType[];
-};
+import { CategoryPickerProps, ItemType } from "./types";
 
 export default function CategoryPicker({
   open,
@@ -19,7 +11,7 @@ export default function CategoryPicker({
   value,
   setValue,
   items,
-}: Props) {
+}: CategoryPickerProps) {
   const [localItems, setLocalItems] = useState<ItemType[]>([]);
 
   useEffect(() => {
@@ -35,9 +27,9 @@ export default function CategoryPicker({
 
   return (
     <View style={styles.wrapper}>
-      <DropDownPicker
+      <DropDownPicker<string>
         open={open}
-        value={value}
+        value={value ?? "all"}
         items={localItems}
         setOpen={setOpen}
         setValue={setValue}

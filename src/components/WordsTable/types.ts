@@ -16,3 +16,26 @@ export interface WordsTableProps {
   setPage: (page: number) => void;
   mode?: "own" | "all";
 }
+export interface WordsHeaderProps {
+  colWord: number;
+  colTranslation: number;
+  colProgress: number;
+  colActions: number;
+}
+export interface WordRowProps {
+  item: Word;
+  colWord: number;
+  colTranslation: number;
+  colProgress: number;
+  colActions: number;
+  mode?: "own" | "all";
+  onEllipsisPress: (pos: { top: number; left: number }, word: Word) => void;
+  onAdd?: (word: Word) => Promise<boolean> | boolean;
+}
+export interface WordActionsModalProps {
+  isVisible: boolean;
+  position: { top: number; left: number };
+  onClose: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+}

@@ -8,25 +8,10 @@ import Search from "@/assets/icons/search.svg";
 import { useGetCategoriesQuery, useGetStatisticsQuery } from "@/src/store/api";
 import { useRouter, useSegments } from "expo-router";
 import CategoryPicker from "../ui/CategoryPicker/CategoryPicker";
+import { ItemType } from "../ui/CategoryPicker/types";
 import VerbTypeSelector from "../ui/VerbTypeSelector/VerbTypeSelector";
 import { dashboardStyles as styles } from "./Dashboard.styles";
-
-interface Category {
-  name: string;
-}
-
-interface DashboardProps {
-  search: string;
-  setSearch: (v: string) => void;
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  category: string | null;
-  setCategory: (v: string | null) => void;
-  verbType: string | null;
-  setVerbType: React.Dispatch<React.SetStateAction<string | null>>;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-}
+import { Category, DashboardProps } from "./types";
 
 export default function Dashboard({
   search,
@@ -47,14 +32,12 @@ export default function Dashboard({
   const { data: categories = [], isLoading: isCategoriesLoading } =
     useGetCategoriesQuery(null);
   const { data: stats } = useGetStatisticsQuery(null);
-  const [items, setItems] = useState<{ label: string; value: string | null }[]>(
-    []
-  );
+  const [items, setItems] = useState<ItemType[]>([]);
   const [tempSearch, setTempSearch] = useState(search);
   useEffect(() => {
     if (!isCategoriesLoading && categories.length) {
       const mapped = [
-        { label: "All", value: null },
+        { label: "Categories", value: "all" },
         ...categories.map((cat: Category) => ({
           label: cat,
           value: cat,
@@ -75,10 +58,16 @@ export default function Dashboard({
     setSearch("");
   }, [currentScreen]);
   const handleCategoryChange = (selectedCategory: string | null) => {
-    setCategory(selectedCategory);
-    if (selectedCategory === null) {
+    if (selectedCategory === "all") {
+      setCategory(null);
+    } else {
+      setCategory(selectedCategory);
+    }
+
+    if (selectedCategory !== "verb") {
       setVerbType(null);
     }
+
     setPage(1);
   };
   return (

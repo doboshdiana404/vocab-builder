@@ -1,20 +1,14 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
-
-interface Props {
-  colWord: number;
-  colTranslation: number;
-  colProgress: number;
-  colActions: number;
-}
+import { WordsHeaderProps } from "./types";
 
 export default function WordsHeader({
   colWord,
   colTranslation,
   colProgress,
   colActions,
-}: Props) {
+}: WordsHeaderProps) {
   return (
     <View style={styles.headerRow}>
       <Text style={[styles.headerText, styles.cell, { width: colWord }]}>

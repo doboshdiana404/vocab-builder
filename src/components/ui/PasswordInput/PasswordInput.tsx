@@ -4,11 +4,7 @@ import Eye from "@/assets/icons/eye.svg";
 import React, { useState } from "react";
 import { TextInput, TouchableOpacity, View } from "react-native";
 import { authStyles as styles } from "../../../styles/Auth.styles";
-
-type PasswordInputProps = {
-  value: string;
-  onChangeText: (text: string) => void;
-};
+import { PasswordInputProps } from "./types";
 
 export default function PasswordInput({
   value,

@@ -3,14 +3,7 @@ import Trash from "@/assets/icons/trash.svg";
 import React from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
-
-interface Props {
-  isVisible: boolean;
-  position: { top: number; left: number };
-  onClose: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
-}
+import { WordActionsModalProps } from "./types";
 
 export default function WordActionsModal({
   isVisible,
@@ -18,7 +11,7 @@ export default function WordActionsModal({
   onClose,
   onEdit,
   onDelete,
-}: Props) {
+}: WordActionsModalProps) {
   return (
     <Modal visible={isVisible} transparent animationType="fade">
       <TouchableOpacity style={{ flex: 1 }} activeOpacity={1} onPress={onClose}>

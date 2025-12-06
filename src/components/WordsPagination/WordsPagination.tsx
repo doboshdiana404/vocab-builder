@@ -1,13 +1,13 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./WordsPagination.styles";
-interface Props {
-  page: number;
-  totalPages: number;
-  setPage: (page: number) => void;
-}
+import { WordsPaginationProps } from "./types";
 
-export default function WordsPagination({ page, totalPages, setPage }: Props) {
+export default function WordsPagination({
+  page,
+  totalPages,
+  setPage,
+}: WordsPaginationProps) {
   const renderPages = () => {
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (

@@ -1,13 +1,12 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./VerbTypeSelector.styles";
+import { VerbTypeSelectorProps } from "./types";
 
-type Props = {
-  verbType: string | null;
-  setVerbType: Dispatch<SetStateAction<string | null>>;
-};
-
-export default function VerbTypeSelector({ verbType, setVerbType }: Props) {
+export default function VerbTypeSelector({
+  verbType,
+  setVerbType,
+}: VerbTypeSelectorProps) {
   const options = ["Regular", "Irregular"];
 
   return (

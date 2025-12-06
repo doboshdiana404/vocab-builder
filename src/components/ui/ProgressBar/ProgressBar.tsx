@@ -1,14 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
-
-interface Props {
-  progress: number;
-  size?: number;
-  strokeWidth?: number;
-  color?: string;
-  backgroundColor?: string;
-}
+import { ProgressBarProps } from "./types";
 
 export default function ProgressBar({
   progress,
@@ -16,7 +9,7 @@ export default function ProgressBar({
   strokeWidth = 4,
   color = "#2bd627",
   backgroundColor = "#d4f8d3",
-}: Props) {
+}: ProgressBarProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (circumference * progress) / 100;

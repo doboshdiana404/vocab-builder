@@ -1,20 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import ProgressBar from "../ui/ProgressBar";
+import ProgressBar from "../ui/ProgressBar/ProgressBar";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
-import type { Word } from "./types";
-
-interface Props {
-  item: Word;
-  colWord: number;
-  colTranslation: number;
-  colProgress: number;
-  colActions: number;
-  mode?: "own" | "all";
-  onEllipsisPress: (pos: { top: number; left: number }, word: Word) => void;
-  onAdd?: (word: Word) => Promise<boolean> | boolean;
-}
+import type { Word, WordRowProps } from "./types";
 
 export default function WordRow({
   item,
@@ -23,7 +12,7 @@ export default function WordRow({
   colProgress,
   colActions,
   onEllipsisPress,
-}: Props) {
+}: WordRowProps) {
   const btnRef = useRef<View>(null);
   const [added, setAdded] = useState(false);
 
