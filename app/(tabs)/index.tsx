@@ -1,13 +1,26 @@
 import Dashboard from "@/src/components/Dashboard/Dashboard";
+import WordsTable from "@/src/components/WordsTable/WordsTable";
+import { useGetWordsQuery } from "@/src/store/api";
+import { RootState } from "@/src/store/store";
 import { useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function HomeScreen() {
+  const token = useSelector((state: RootState) => state.auth.token);
+
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
-  const [verbType, setVerbType] = useState("");
-
+  const [verbType, setVerbType] = useState<string | null>(null);
+  const { data, isLoading, refetch } = useGetWordsQuery(
+    {
+      ...(search ? { keyword: search } : {}),
+      ...(category ? { category } : {}),
+      ...(verbType ? { isIrregular: verbType === "irregular" } : {}),
+    },
+    { skip: !token }
+  );
   return (
     <View style={{ flex: 1, backgroundColor: "#f9fafb", position: "relative" }}>
       <ScrollView
@@ -24,6 +37,15 @@ export default function HomeScreen() {
           verbType={verbType}
           setVerbType={setVerbType}
         />
+        {isLoading ? (
+          <ActivityIndicator size="large" style={{ marginTop: 20 }} />
+        ) : (
+          <WordsTable
+            words={data?.results ?? []}
+            onEdit={console.log("modal edit")}
+            onRefresh={refetch}
+          />
+        )}
       </ScrollView>
     </View>
   );

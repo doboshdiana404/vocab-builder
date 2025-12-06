@@ -14,7 +14,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { authStyles as styles } from "../../src/styles/authStyles";
+import { authStyles as styles } from "../../src/styles/Auth.styles";
 
 export default function RegisterScreen() {
   const router = useRouter();

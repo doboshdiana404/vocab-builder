@@ -9,7 +9,7 @@ import { useGetCategoriesQuery, useGetStatisticsQuery } from "@/src/store/api";
 import { useRouter, useSegments } from "expo-router";
 import CategoryPicker from "../ui/CategoryPicker/CategoryPicker";
 import VerbTypeSelector from "../ui/VerbTypeSelector/VerbTypeSelector";
-import { dashboardStyles as styles } from "./dashboardStyles";
+import { dashboardStyles as styles } from "./Dashboard.styles";
 
 interface Category {
   name: string;

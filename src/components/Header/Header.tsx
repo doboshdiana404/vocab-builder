@@ -7,7 +7,7 @@ import { capitalizeName } from "@/src/utils/capitalizeName";
 import { usePathname, useRouter } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { headerStyles as styles } from "./headerStyles";
+import { headerStyles as styles } from "./Header.styles";
 
 export default function Header() {
   const dispatch = useAppDispatch();

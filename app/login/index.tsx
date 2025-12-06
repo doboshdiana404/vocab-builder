@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { authStyles as styles } from "../../src/styles/authStyles";
+import { authStyles as styles } from "../../src/styles/Auth.styles";
 
 import PasswordInput from "@/src/components/ui/PasswordInput/PasswordInput";
 import { useLoginMutation } from "@/src/store/api";
