@@ -8,6 +8,7 @@ import Search from "@/assets/icons/search.svg";
 import { useGetCategoriesQuery, useGetStatisticsQuery } from "@/src/store/api";
 import { useRouter, useSegments } from "expo-router";
 import CategoryPicker from "../ui/CategoryPicker/CategoryPicker";
+import VerbTypeSelector from "../ui/VerbTypeSelector/VerbTypeSelector";
 import { dashboardStyles as styles } from "./dashboardStyles";
 
 interface Category {
@@ -21,6 +22,8 @@ interface DashboardProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   category: string | null;
   setCategory: (v: string | null) => void;
+  verbType: string | null;
+  setVerbType: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function Dashboard({
@@ -30,6 +33,8 @@ export default function Dashboard({
   setOpen,
   category,
   setCategory,
+  verbType,
+  setVerbType,
 }: DashboardProps) {
   const router = useRouter();
   const segments = useSegments();
@@ -93,6 +98,30 @@ export default function Dashboard({
         setValue={handleCategoryChange}
         items={items}
       />
+      {category?.toLowerCase() === "verb" ? (
+        <>
+          <VerbTypeSelector verbType={verbType} setVerbType={setVerbType} />
+
+          <View style={{ marginTop: 8 }}>
+            {verbType === "irregular" ? (
+              <Text
+                style={{
+                  color: "#121417",
+                  fontSize: 10,
+                  fontFamily: "FixelDisplayRegular",
+                }}
+              >
+                Such data must be entered in the format I form-II form-III form.
+              </Text>
+            ) : (
+              <Text style={{ opacity: 0, height: 6 }}></Text>
+            )}
+          </View>
+        </>
+      ) : (
+        <View style={{ height: 40 }}></View>
+      )}
+
       <View style={styles.statistics}>
         <Text style={styles.studyText}>
           To study:

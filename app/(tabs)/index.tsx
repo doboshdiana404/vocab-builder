@@ -6,6 +6,7 @@ export default function HomeScreen() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [verbType, setVerbType] = useState("");
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f9fafb", position: "relative" }}>
@@ -20,6 +21,8 @@ export default function HomeScreen() {
           setSearch={setSearch}
           category={category}
           setCategory={setCategory}
+          verbType={verbType}
+          setVerbType={setVerbType}
         />
       </ScrollView>
     </View>
