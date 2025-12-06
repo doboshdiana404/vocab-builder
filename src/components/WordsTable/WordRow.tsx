@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import ProgressBar from "../ui/ProgressBar";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 import type { Word } from "./types";
 
@@ -42,7 +43,7 @@ export default function WordRow({
       </Text>
 
       <View style={[styles.cell, { width: colProgress, alignItems: "center" }]}>
-        Progress
+        <ProgressBar progress={item.progress} size={24} />{" "}
       </View>
 
       <View style={[styles.cell, styles.lastCell, { width: colActions }]}>
