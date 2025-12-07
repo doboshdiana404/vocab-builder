@@ -1,26 +1,21 @@
 import Dashboard from "@/src/components/Dashboard/Dashboard";
-import EditWordModal from "@/src/components/EditWordModal/EditWordModal";
 import WordsTable from "@/src/components/WordsTable/WordsTable";
-import { useGetWordsQuery } from "@/src/store/api";
-import { RootState } from "@/src/store/store";
+import { useAddWordMutation, useGetAllWordsQuery } from "@/src/store/api";
 import { useState } from "react";
 import { ActivityIndicator, ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
-import { Word } from "../../src/components/WordsTable/types";
+import { RootState, Word } from "./types";
 
-export default function HomeScreen() {
+export default function RecommendScreen() {
   const token = useSelector((state: RootState) => state.auth.token);
-
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
   const [category, setCategory] = useState<string | null>(null);
-  const [open, setOpen] = useState(false);
-  const [page, setPage] = useState(1);
-
-  const [wordToEdit, setWordToEdit] = useState<Word | null>(null);
-  const [editModalVisible, setEditModalVisible] = useState(false);
-
   const [verbType, setVerbType] = useState<string | null>(null);
-  const { data, isLoading, refetch } = useGetWordsQuery(
+  const [open, setOpen] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [addWord] = useAddWordMutation();
+
+  const { data, isLoading, refetch } = useGetAllWordsQuery(
     {
       ...(search ? { keyword: search } : {}),
       ...(category ? { category } : {}),
@@ -30,12 +25,34 @@ export default function HomeScreen() {
     },
     { skip: !token }
   );
-  const handleEdit = (word: Word) => {
-    setWordToEdit(word);
-    setEditModalVisible(true);
+
+  const handleAddWord = async (word: Word) => {
+    try {
+      const payload: any = {
+        en: word.en,
+        ua: word.ua,
+        category: word.category,
+      };
+
+      if (word.category === "verb") {
+        payload.isIrregular = word.isIrregular === true;
+      }
+
+      await addWord(payload).unwrap();
+
+      refetch();
+      return true;
+    } catch (err: any) {
+      if (err?.status === 409) {
+        return false;
+      }
+
+      return false;
+    }
   };
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#f9fafb", position: "relative" }}>
+    <View style={{ flex: 1, backgroundColor: "#f9fafb" }}>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 130 }}
         keyboardShouldPersistTaps="handled"
@@ -52,27 +69,20 @@ export default function HomeScreen() {
           page={page}
           setPage={setPage}
         />
+
         {isLoading ? (
           <ActivityIndicator size="large" style={{ marginTop: 20 }} />
         ) : (
           <WordsTable
-            words={data?.results ?? []}
-            onEdit={handleEdit}
-            onRefresh={refetch}
+            words={data?.results || []}
             page={page}
-            totalPages={data?.totalPages ?? 1}
+            totalPages={data?.totalPages || 1}
             setPage={setPage}
-            mode="own"
+            mode="all"
+            onAdd={handleAddWord}
           />
         )}
       </ScrollView>
-      {wordToEdit && (
-        <EditWordModal
-          visible={editModalVisible}
-          onClose={() => setEditModalVisible(false)}
-          word={wordToEdit}
-        />
-      )}
     </View>
   );
 }

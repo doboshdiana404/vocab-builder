@@ -21,6 +21,7 @@ export interface WordsHeaderProps {
   colTranslation: number;
   colProgress: number;
   colActions: number;
+  mode?: "own" | "all";
 }
 export interface WordRowProps {
   item: Word;

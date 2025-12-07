@@ -8,6 +8,7 @@ export default function WordsHeader({
   colTranslation,
   colProgress,
   colActions,
+  mode,
 }: WordsHeaderProps) {
   return (
     <View style={styles.headerRow}>
@@ -18,7 +19,7 @@ export default function WordsHeader({
         Translation
       </Text>
       <Text style={[styles.headerText, styles.cell, { width: colProgress }]}>
-        Progress
+        {mode === "own" ? "Progress" : "Category"}{" "}
       </Text>
       <Text
         style={[styles.headerText, styles.lastCell, { width: colActions }]}

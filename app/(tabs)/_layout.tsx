@@ -39,7 +39,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="recommend"
+          name="recommend/index"
           options={{
             title: "Recommend",
             tabBarLabelStyle: {

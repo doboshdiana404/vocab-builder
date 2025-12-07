@@ -58,6 +58,7 @@ export default function WordsTable({
         colTranslation={colTranslation}
         colProgress={colProgress}
         colActions={colActions}
+        mode={mode}
       />
 
       <FlatList
@@ -71,19 +72,23 @@ export default function WordsTable({
             colProgress={colProgress}
             colActions={colActions}
             onEllipsisPress={handleEllipsisPress}
+            mode={mode}
+            onAdd={onAdd}
           />
         )}
       />
 
       <WordsPagination page={page} totalPages={totalPages} setPage={setPage} />
 
-      <WordActionsModal
-        isVisible={isModalVisible}
-        position={modalPos}
-        onClose={() => setModalVisible(false)}
-        onEdit={() => selectedWord && onEdit?.(selectedWord)}
-        onDelete={handleDelete}
-      />
+      {mode === "own" && (
+        <WordActionsModal
+          isVisible={isModalVisible}
+          position={modalPos}
+          onClose={() => setModalVisible(false)}
+          onEdit={() => selectedWord && onEdit?.(selectedWord)}
+          onDelete={handleDelete}
+        />
+      )}
     </View>
   );
 }

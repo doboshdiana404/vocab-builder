@@ -78,4 +78,9 @@ export const wordsTableStyles = StyleSheet.create({
     textAlign: "center",
     marginTop: 5,
   },
+  categoryText: {
+    fontSize: 14,
+    color: "#121417",
+    fontFamily: "FixelDisplayMedium",
+  },
 });
