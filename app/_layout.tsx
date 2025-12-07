@@ -4,8 +4,10 @@ import { PortalProvider } from "@gorhom/portal";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { ToastProvider } from "expo-toast";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
+
 export const unstable_settings = {
   anchor: "(tabs)",
 };
@@ -32,17 +34,22 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <PortalProvider>
-        <AuthGate>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="login/index" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="register/index"
-              options={{ headerShown: false }}
-            />
-          </Stack>
-          <StatusBar style="auto" />
-        </AuthGate>
+        <ToastProvider>
+          <AuthGate>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="login/index"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="register/index"
+                options={{ headerShown: false }}
+              />
+            </Stack>
+            <StatusBar style="auto" />
+          </AuthGate>
+        </ToastProvider>
       </PortalProvider>
     </Provider>
   );

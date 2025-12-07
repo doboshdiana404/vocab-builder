@@ -2,6 +2,7 @@ import Ukraine from "@/assets/icons/ukraine.svg";
 import UnitedKingdom from "@/assets/icons/united-kingdom.svg";
 
 import { useUpdateWordMutation } from "@/src/store/api";
+import { useToast } from "expo-toast";
 import React, { JSX, useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import SwipeableBottomSheet from "../SwipeableBottomSheet/SwipeableBottomSheet";
@@ -19,6 +20,7 @@ export default function EditWordModal({
   const [errors, setErrors] = useState<FormErrors>({});
   const UA_REGEX = /^[А-Яа-яЇїІіЄєҐґ'’\s-]*$/;
   const EN_REGEX = /^[A-Za-z'-\s]*$/;
+  const toast = useToast();
 
   const [updateWord, { isLoading }] = useUpdateWordMutation();
 
@@ -70,7 +72,10 @@ export default function EditWordModal({
           isIrregular: word.isIrregular,
         },
       }).unwrap();
-
+      toast.show("Word updated successfully!", {
+        containerStyle: { backgroundColor: "rgba(5, 131, 62, 0.5)" },
+        duration: 1000,
+      });
       onClose();
     } catch (err) {
       const error = err as {
@@ -80,6 +85,10 @@ export default function EditWordModal({
 
       const message =
         error?.data?.message || "Failed to update word. Please try again.";
+      toast.show(message, {
+        containerStyle: { backgroundColor: "rgba(255, 80, 80, 0.8)" },
+        duration: 2500,
+      });
     }
   };
 

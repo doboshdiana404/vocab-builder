@@ -1,6 +1,7 @@
 import Dashboard from "@/src/components/Dashboard/Dashboard";
 import WordsTable from "@/src/components/WordsTable/WordsTable";
 import { useAddWordMutation, useGetAllWordsQuery } from "@/src/store/api";
+import { useToast } from "expo-toast";
 import { useState } from "react";
 import { ActivityIndicator, ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
@@ -14,6 +15,7 @@ export default function RecommendScreen() {
   const [open, setOpen] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [addWord] = useAddWordMutation();
+  const toast = useToast();
 
   const { data, isLoading, refetch } = useGetAllWordsQuery(
     {
@@ -40,13 +42,25 @@ export default function RecommendScreen() {
 
       await addWord(payload).unwrap();
 
+      toast.show("Word added successfully!", {
+        containerStyle: { backgroundColor: "rgba(5, 131, 62, 0.5)" },
+        duration: 1000,
+      });
+
       refetch();
       return true;
     } catch (err: any) {
       if (err?.status === 409) {
+        toast.show("This word is already in your dictionary.", {
+          containerStyle: { backgroundColor: "rgba(168, 174, 4, 0.41)" },
+          duration: 1000,
+        });
         return false;
       }
-
+      toast.show("Error adding word. Please try again.", {
+        containerStyle: { backgroundColor: "rgba(228, 5, 5, 0.5)" },
+        duration: 1000,
+      });
       return false;
     }
   };
