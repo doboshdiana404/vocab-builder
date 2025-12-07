@@ -65,7 +65,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="add-word"
+          name="add-word/index"
           options={{
             href: null,
           }}
