@@ -117,7 +117,7 @@ export default function Dashboard({
 
       <View style={styles.statistics}>
         <Text style={styles.studyText}>
-          To study:
+          To study:{" "}
           <Text style={styles.studyCount}>{stats?.totalCount ?? 0}</Text>
         </Text>
       </View>

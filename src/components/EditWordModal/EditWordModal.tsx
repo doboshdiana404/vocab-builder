@@ -3,28 +3,11 @@ import UnitedKingdom from "@/assets/icons/united-kingdom.svg";
 
 import { useUpdateWordMutation } from "@/src/store/api";
 import React, { JSX, useEffect, useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import SwipeableBottomSheet from "../SwipeableBottomSheet/SwipeableBottomSheet";
+import Input from "../ui/Input/Input";
 import { editWordModalStyles as styles } from "./EditWordModal.styles";
-
-type Word = {
-  _id: string;
-  ua: string;
-  en: string;
-  category: string;
-  isIrregular?: boolean;
-};
-
-type EditWordModalProps = {
-  visible: boolean;
-  onClose: () => void;
-  word: Word;
-};
-
-type FormErrors = {
-  ua?: string;
-  en?: string;
-};
+import { EditWordModalProps, FormErrors } from "./types";
 
 export default function EditWordModal({
   visible,
@@ -103,57 +86,25 @@ export default function EditWordModal({
   return (
     <SwipeableBottomSheet visible={visible} onClose={onClose}>
       <View style={{ marginBottom: 24 }}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 4,
-          }}
-        >
-          <Ukraine width={28} height={28} />
-          <Text style={{ marginLeft: 8 }}>Ukrainian</Text>
-        </View>
-        <TextInput
+        <Input
+          label="Ukrainian"
+          icon={<Ukraine width={28} height={28} />}
           value={ua}
           onChangeText={handleUaChange}
           placeholder="Українське слово"
-          placeholderTextColor="#121417"
-          style={{
-            borderWidth: 1,
-            borderColor: errors.ua ? "#FF6B6B" : "rgba(18, 20, 23, 0.1)",
-            padding: 8,
-            borderRadius: 6,
-          }}
+          error={errors.ua}
+          stable={true}
         />
-        {errors.ua && <Text style={{ color: "#FF6B6B" }}>{errors.ua}</Text>}
       </View>
-
-      <View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 4,
-          }}
-        >
-          <UnitedKingdom width={28} height={28} />
-          <Text style={{ marginLeft: 8 }}>English</Text>
-        </View>
-        <TextInput
-          value={en}
-          onChangeText={handleEnChange}
-          placeholder="English word"
-          placeholderTextColor="#121417"
-          style={{
-            borderWidth: 1,
-            borderColor: errors.en ? "#FF6B6B" : "rgba(18, 20, 23, 0.1)",
-            padding: 8,
-            borderRadius: 6,
-          }}
-        />
-        {errors.ua && <Text style={{ color: "#FF6B6B" }}>{errors.ua}</Text>}
-      </View>
-
+      <Input
+        label="English"
+        icon={<UnitedKingdom width={28} height={28} />}
+        value={en}
+        onChangeText={handleEnChange}
+        placeholder="English word"
+        error={errors.en}
+        stable={true}
+      />
       <TouchableOpacity
         style={styles.saveBtn}
         onPress={handleSave}
