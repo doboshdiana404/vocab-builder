@@ -79,7 +79,6 @@ export default function WordsTable({
       />
 
       <WordsPagination page={page} totalPages={totalPages} setPage={setPage} />
-
       {mode === "own" && (
         <WordActionsModal
           isVisible={isModalVisible}

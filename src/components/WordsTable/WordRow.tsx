@@ -43,7 +43,7 @@ export default function WordRow({
           <ProgressBar progress={item.progress} size={24} />
         ) : (
           <Text style={styles.categoryText}>{item.category}</Text>
-        )}{" "}
+        )}
       </View>
 
       <View style={[styles.cell, styles.lastCell, { width: colActions }]}>
