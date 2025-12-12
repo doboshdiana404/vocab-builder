@@ -4,6 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import ProgressBar from "../ui/ProgressBar/ProgressBar";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 import type { WordRowProps } from "./types";
+import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
 
 export default function WordRow({
   item,
@@ -40,7 +41,7 @@ export default function WordRow({
 
       <View style={[styles.cell, { width: colProgress, alignItems: "center" }]}>
         {mode === "own" ? (
-          <ProgressBar progress={item.progress} size={24} />
+          <ProgressBar progress={item.progress} />
         ) : (
           <Text style={styles.categoryText}>{item.category}</Text>
         )}
@@ -51,11 +52,9 @@ export default function WordRow({
           <TouchableOpacity ref={btnRef} onPress={measurePosition}>
             <Ionicons name="ellipsis-horizontal" size={18} color="#6b7280" />
           </TouchableOpacity>
-        ) : added ? (
-          <Ionicons name="checkmark-circle" size={20} color="green" />
         ) : (
           <TouchableOpacity onPress={handleAdd}>
-            <Ionicons name="arrow-forward" size={20} color="#6b7280" />
+            <ArrowHorizontal width={20} height={20} />
           </TouchableOpacity>
         )}
       </View>

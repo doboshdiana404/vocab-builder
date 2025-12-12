@@ -46,6 +46,7 @@ export default function RootLayout() {
                 name="register/index"
                 options={{ headerShown: false }}
               />
+              
             </Stack>
             <StatusBar style="auto" />
           </AuthGate>

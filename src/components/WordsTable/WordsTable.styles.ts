@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const wordsTableStyles = StyleSheet.create({
   container: {
     overflow: "hidden",
-    backgroundColor: "#f9fafb",
+    backgroundColor: "#f8f8f8",
     paddingHorizontal: 16,
     paddingTop: 16,
   },

@@ -52,7 +52,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="training"
+          name="training/index"
           options={{
             title: "Training",
             tabBarLabelStyle: {

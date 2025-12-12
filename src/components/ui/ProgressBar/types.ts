@@ -4,4 +4,6 @@ export interface ProgressBarProps {
   strokeWidth?: number;
   color?: string;
   backgroundColor?: string;
+  showCenterLabel?: boolean;
+  centerLabel?: string | number;
 }

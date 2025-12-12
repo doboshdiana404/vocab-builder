@@ -66,7 +66,7 @@ export default function RecommendScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#f9fafb" }}>
+    <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 130 }}
         keyboardShouldPersistTaps="handled"

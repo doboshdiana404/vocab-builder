@@ -35,7 +35,7 @@ export default function HomeScreen() {
     setEditModalVisible(true);
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "#f9fafb", position: "relative" }}>
+    <View style={{ flex: 1, backgroundColor: "#f8f8f8", position: "relative" }}>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 130 }}
         keyboardShouldPersistTaps="handled"
