@@ -45,7 +45,6 @@ export const trainingStyles = StyleSheet.create({
   /* Language rows */
   langRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 18,
   },
@@ -53,6 +52,7 @@ export const trainingStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    marginLeft: "auto",
   },
   langLower: {
     flexDirection: "row",

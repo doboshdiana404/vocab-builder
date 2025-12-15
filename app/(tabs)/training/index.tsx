@@ -1,107 +1,84 @@
-import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
-import Ukraine from "@/assets/icons/ukraine.svg";
-import UnitedKingdom from "@/assets/icons/united-kingdom.svg";
-import ProgressBar from "@/src/components/ui/ProgressBar/ProgressBar";
+import { useFocusEffect, useRouter } from "expo-router";
+import React, { useCallback } from "react";
 import {
-  useGetTrainingTasksQuery,
-  useSendTrainingAnswersMutation,
-} from "@/src/store/api/training/trainingApi";
-import React, { useState } from "react";
-import {
-  Alert,
-  Keyboard,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+
+import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
+import ProgressBar from "@/src/components/ui/ProgressBar/ProgressBar";
+import {
+  useGetTrainingTasksQuery,
+  useSendTrainingAnswersMutation,
+} from "@/src/store/api/training/trainingApi";
+
 import { trainingStyles as styles } from "./Training.styles";
+import { getTrainingView } from "./training.utils";
+import { useTraining } from "./useTraining";
 
 export default function TrainingScreen() {
-  const { data, isLoading } = useGetTrainingTasksQuery();
+  const router = useRouter();
+
+  const { isLoading, refetch } = useGetTrainingTasksQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const [sendAnswers, { isLoading: isSending }] =
     useSendTrainingAnswersMutation();
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [userAnswer, setUserAnswer] = useState("");
-  const [isFinished, setIsFinished] = useState(false);
-
-  if (isLoading) return <Text>Loading...</Text>;
-  if (!data?.tasks?.length) return <Text>No words for training</Text>;
-
-  const tasks = data.tasks;
-  const currentWord = tasks[currentIndex];
-
-  const isUaToEn = currentWord.task === "en";
-  const shownWord = isUaToEn ? currentWord.ua : currentWord.en;
-
-  const shownFlag = isUaToEn ? (
-    <Ukraine width={28} height={28} />
-  ) : (
-    <UnitedKingdom width={28} height={28} />
-  );
-  const shownLang = isUaToEn ? "Ukrainian" : "English";
-
-  const answerFlag = isUaToEn ? (
-    <UnitedKingdom width={28} height={28} />
-  ) : (
-    <Ukraine width={28} height={28} />
-  );
-  const answerLang = isUaToEn ? "English" : "Ukrainian";
-
-  const placeholder = isUaToEn ? "Enter translation" : "Введіть переклад";
-
-  const goNext = () => {
-    if (isSending) return;
-
-    setUserAnswer("");
-
-    if (currentIndex + 1 < tasks.length) {
-      setCurrentIndex((prev) => prev + 1);
-    } else {
-      setIsFinished(true);
-    }
+  const onFinish = (results: { correct: string[]; mistakes: string[] }) => {
+    router.replace({
+      pathname: "/(tabs)/training/well-done",
+      params: { results: JSON.stringify(results) },
+    });
   };
 
-  const handleSave = async () => {
-    if (!userAnswer.trim() || isSending) return;
+  const {
+    screenState,
+    tasks,
+    currentIndex,
+    currentWord,
+    isLastTask,
+    shownWord,
+    placeholder,
+    userAnswer,
+    setUserAnswer,
+    canSubmit,
+    handleSave,
+    goNext,
+    startSession,
+  } = useTraining({
+    isSending,
+    sendAnswers,
+    onFinish,
+  });
 
-    Keyboard.dismiss();
+  useFocusEffect(
+    useCallback(() => {
+      let alive = true;
 
-    const answerItem: any = {
-      _id: currentWord._id,
-      task: currentWord.task,
-    };
-    if (currentWord.task === "en") {
-      answerItem.en = userAnswer;
-      answerItem.ua = currentWord.ua;
-    } else {
-      answerItem.ua = userAnswer;
-      answerItem.en = currentWord.en;
-    }
+      (async () => {
+        const res: any = await refetch();
+        const newTasks = res?.data?.tasks;
+        if (!alive) return;
+        if (Array.isArray(newTasks)) startSession(newTasks);
+      })();
 
-    try {
-      await sendAnswers([answerItem]).unwrap();
-      setUserAnswer("");
+      return () => {
+        alive = false;
+      };
+    }, [refetch, startSession])
+  );
 
-      if (currentIndex + 1 < tasks.length) {
-        setCurrentIndex((prev) => prev + 1);
-      } else {
-        setIsFinished(true);
-      }
-    } catch (e) {
-      Alert.alert("Error", "Failed to save answer. Try again.");
-    }
-  };
+  if ((isLoading && tasks.length === 0) || screenState === "empty")
+    return <Text>Loading...</Text>;
+  if (screenState !== "ready" || !currentWord)
+    return <Text>No current word</Text>;
 
-  if (isFinished) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.finishText}>Training complete!</Text>
-      </View>
-    );
-  }
+  const view = getTrainingView(currentWord.task);
+  const { ShownFlag, AnswerFlag } = view;
 
   return (
     <ScrollView style={styles.container}>
@@ -125,23 +102,25 @@ export default function TrainingScreen() {
             placeholder={placeholder}
             placeholderTextColor="#121417"
             returnKeyType="done"
-            onSubmitEditing={goNext}
+            onSubmitEditing={handleSave}
           />
 
           <View style={styles.langRow}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={goNext}
-              disabled={isSending}
-              style={styles.nextWrap}
-            >
-              <Text style={styles.next}>Next</Text>
-              <ArrowHorizontal width={20} height={20} />
-            </TouchableOpacity>
+            {!isLastTask && (
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={goNext}
+                disabled={isSending}
+                style={styles.nextWrap}
+              >
+                <Text style={styles.next}>Next</Text>
+                <ArrowHorizontal width={20} height={20} />
+              </TouchableOpacity>
+            )}
 
             <View style={styles.lang}>
-              {answerFlag}
-              <Text style={styles.langText}>{answerLang}</Text>
+              <AnswerFlag width={28} height={28} />
+              <Text style={styles.langText}>{view.answerLang}</Text>
             </View>
           </View>
         </View>
@@ -151,27 +130,25 @@ export default function TrainingScreen() {
             <Text style={styles.word}>{shownWord}</Text>
 
             <View style={styles.langLower}>
-              {shownFlag}
-              <Text style={styles.langText}>{shownLang}</Text>
+              <ShownFlag width={28} height={28} />
+              <Text style={styles.langText}>{view.shownLang}</Text>
             </View>
           </View>
         </View>
       </View>
 
       <TouchableOpacity
-        style={[
-          styles.saveBtn,
-          (!userAnswer.trim() || isSending) && styles.saveBtnDisabled,
-        ]}
-        disabled={!userAnswer.trim() || isSending}
+        style={[styles.saveBtn, !canSubmit && styles.saveBtnDisabled]}
+        disabled={!canSubmit}
         onPress={handleSave}
       >
-        <Text style={styles.saveText}>{isSending ? "Saving…" : "Save"}</Text>
+        <Text style={styles.saveText}>
+          {isSending ? "Saving…" : isLastTask ? "Finish" : "Save"}
+        </Text>
       </TouchableOpacity>
-
       <TouchableOpacity
         onPress={() => {
-          console.log("Cancel pressed");
+          router.back();
         }}
       >
         <Text style={styles.cancel}>Cancel</Text>

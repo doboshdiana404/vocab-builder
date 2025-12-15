@@ -3,7 +3,7 @@ import { baseApi } from "../baseApi";
 export const trainingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getTrainingTasks: builder.query<
-      { tasks: { _id: string; ua: string; en: string; task: "en" | "ua" }[] },
+      { tasks: { _id: string; ua?: string; en?: string; task: "en" | "ua" }[] },
       void
     >({
       query: () => "/words/tasks",
