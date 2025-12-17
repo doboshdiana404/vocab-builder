@@ -32,7 +32,7 @@ export default function TrainingScreen() {
   const onFinish = (results: { correct: string[]; mistakes: string[] }) => {
     router.replace({
       pathname: "/(tabs)/training/well-done",
-      params: { results: JSON.stringify(results) },
+      params: { results: JSON.stringify(results), hasTasks: "1" },
     });
   };
 
