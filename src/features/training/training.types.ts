@@ -26,3 +26,8 @@ export type Params = {
   sendAnswers: SendAnswers;
   onFinish: (results: TrainingResult) => void;
 };
+
+export type EmptyProps = {
+  onAddWord?: () => void;
+  onCancel?: () => void;
+};

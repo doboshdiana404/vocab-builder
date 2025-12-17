@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { Image, ScrollView, Text, View } from "react-native";
+import { TrainingResult } from "../../../src/features/training/training.types";
 import { wellDoneStyles as styles } from "./WellDone.styles";
-import { TrainingResult } from "./training.types";
 
 export default function WellDoneScreen() {
   const { results } = useLocalSearchParams();
