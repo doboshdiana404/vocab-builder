@@ -1,8 +1,9 @@
 import PasswordInput from "@/src/components/ui/PasswordInput/PasswordInput";
 import { useRegisterMutation } from "@/src/store/api";
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Image,
   Keyboard,
@@ -24,26 +25,55 @@ export default function RegisterScreen() {
 
   const [register, { isLoading, error, isSuccess }] = useRegisterMutation();
 
+  const getRegisterErrorMessage = (err: any) => {
+    const status = err?.status;
+
+    if (status === 409) return "User with this email already exists.";
+    if (status === 400) return "Please check your input data.";
+    if (status === 401 || status === 403)
+      return "Authorization error. Try again.";
+    if (status === "FETCH_ERROR") return "No internet connection.";
+    if (status === "TIMEOUT_ERROR") return "Request timed out. Try again.";
+
+    return (
+      err?.data?.message ||
+      err?.error ||
+      "Registration failed. Try again later."
+    );
+  };
+
+  const canSubmit = useMemo(() => {
+    return (
+      name.trim().length > 0 &&
+      email.trim().length > 0 &&
+      password.trim().length > 0 &&
+      !isLoading
+    );
+  }, [name, email, password, isLoading]);
+
   const handleRegister = async () => {
-    if (!name || !email || !password) {
+    if (isLoading) return;
+
+    const n = name.trim();
+    const e = email.trim();
+    const p = password.trim();
+
+    if (!n || !e || !p) {
       Alert.alert("Please fill in all fields");
       return;
     }
+
     try {
-      await register({ name, email, password }).unwrap();
+      await register({ name: n, email: e, password: p }).unwrap();
     } catch (err: any) {
-      Alert.alert(
-        "Registration failed",
-        err?.data?.message || "Try again later"
-      );
+      Alert.alert("Registration failed", getRegisterErrorMessage(err));
     }
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      router.replace("/(tabs)");
-    }
-  }, [isSuccess]);
+    if (isSuccess) router.replace("/(tabs)");
+  }, [isSuccess, router]);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.root}>
@@ -54,6 +84,7 @@ export default function RegisterScreen() {
             resizeMode="contain"
           />
         </View>
+
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? -10 : -20}
@@ -72,21 +103,40 @@ export default function RegisterScreen() {
               placeholderTextColor="#121417"
               value={name}
               onChangeText={setName}
+              autoCorrect={false}
+              textContentType="name"
             />
+
             <TextInput
               style={styles.input}
               placeholder="Email"
               placeholderTextColor="#121417"
               value={email}
               onChangeText={setEmail}
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              textContentType="emailAddress"
             />
+
             <PasswordInput value={password} onChangeText={setPassword} />
 
-            {error && <Text style={{ color: "red" }}>Registration failed</Text>}
-            {isLoading && <Text>Loading...</Text>}
-            <TouchableOpacity style={styles.button} onPress={handleRegister}>
-              <Text style={styles.buttonText}>Register</Text>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                !canSubmit && { opacity: 0.6 },
+                { flexDirection: "row", justifyContent: "center", gap: 10 },
+              ]}
+              onPress={handleRegister}
+              disabled={!canSubmit}
+              activeOpacity={0.8}
+            >
+              {isLoading ? <ActivityIndicator color="#fff" /> : null}
+              <Text style={styles.buttonText}>
+                {isLoading ? "Registering…" : "Register"}
+              </Text>
             </TouchableOpacity>
+
             <TouchableOpacity onPress={() => router.push("/login")}>
               <Text style={styles.register}>Login</Text>
             </TouchableOpacity>

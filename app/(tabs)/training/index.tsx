@@ -1,6 +1,7 @@
 import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback } from "react";
 import {
+  ActivityIndicator,
   ScrollView,
   Text,
   TextInput,
@@ -73,10 +74,29 @@ export default function TrainingScreen() {
     }, [refetch, startSession])
   );
 
-  if (isLoading && tasks.length === 0) return <Text>Loading...</Text>;
+  if (isLoading && tasks.length === 0) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#f8f8f8",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
   if (screenState === "empty") return <TrainingEmptyState />;
-  if (screenState !== "ready" || !currentWord)
-    return <Text>No current word</Text>;
+
+  if (screenState !== "ready" || !currentWord) {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
+        <TrainingEmptyState />
+      </View>
+    );
+  }
 
   const view = getTrainingView(currentWord.task);
   const { ShownFlag, AnswerFlag } = view;
@@ -147,11 +167,8 @@ export default function TrainingScreen() {
           {isSending ? "Saving…" : isLastTask ? "Finish" : "Save"}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          router.back();
-        }}
-      >
+
+      <TouchableOpacity onPress={() => router.back()}>
         <Text style={styles.cancel}>Cancel</Text>
       </TouchableOpacity>
     </ScrollView>

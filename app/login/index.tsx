@@ -1,10 +1,11 @@
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { authStyles as styles } from "../../src/styles/Auth.styles";
 
 import PasswordInput from "@/src/components/ui/PasswordInput/PasswordInput";
 import { useLoginMutation } from "@/src/store/api";
 import {
+  ActivityIndicator,
   Image,
   Keyboard,
   KeyboardAvoidingView,
@@ -15,16 +16,16 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
 
 export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
 
-  const [login, { isLoading, error, isSuccess }] = useLoginMutation();
+  const [login, { isLoading, error }] = useLoginMutation();
+
   const handleLogin = async () => {
+    if (isLoading) return;
     try {
       await login({ email, password }).unwrap();
       router.replace("/(tabs)");
@@ -33,11 +34,8 @@ export default function LoginScreen() {
     }
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      router.replace("/(tabs)");
-    }
-  }, [isSuccess]);
+  const canSubmit =
+    email.trim().length > 0 && password.trim().length > 0 && !isLoading;
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -52,6 +50,7 @@ export default function LoginScreen() {
             Word • Translation • Grammar • Progress
           </Text>
         </View>
+
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? -10 : -20}
@@ -69,17 +68,36 @@ export default function LoginScreen() {
               placeholderTextColor="#121417"
               value={email}
               onChangeText={setEmail}
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              textContentType="emailAddress"
             />
+
             <PasswordInput value={password} onChangeText={setPassword} />
 
-            {error && (
-              <Text style={{ color: "red" }}>Invalid email or password</Text>
-            )}
-            {isLoading && <Text>Loading...</Text>}
+            <View style={{ minHeight: 18, marginTop: 8 }}>
+              {!!error && (
+                <Text style={{ color: "red" }}>Invalid email or password</Text>
+              )}
+            </View>
 
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Login</Text>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                !canSubmit && { opacity: 0.6 },
+                { flexDirection: "row", justifyContent: "center", gap: 10 },
+              ]}
+              onPress={handleLogin}
+              disabled={!canSubmit}
+              activeOpacity={0.8}
+            >
+              {isLoading ? <ActivityIndicator color="#fff" /> : null}
+              <Text style={styles.buttonText}>
+                {isLoading ? "Logging in…" : "Login"}
+              </Text>
             </TouchableOpacity>
+
             <TouchableOpacity onPress={() => router.push("/register")}>
               <Text style={styles.register}>Register</Text>
             </TouchableOpacity>

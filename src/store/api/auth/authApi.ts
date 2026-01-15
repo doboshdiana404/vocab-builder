@@ -1,23 +1,9 @@
 import { baseApi } from "../baseApi";
 import { setCredentials } from "./authSlice";
+import { AuthResponse, LoginRequest, RegisterRequest } from "./types";
 
 const CURRENT_USER_URL =
   "https://vocab-builder-backend.p.goit.global/api/users/current";
-
-interface AuthResponse {
-  token: string;
-}
-
-interface RegisterRequest {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface LoginRequest {
-  email: string;
-  password: string;
-}
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -35,7 +21,9 @@ export const authApi = baseApi.injectEndpoints({
           const res = await fetch(CURRENT_USER_URL, {
             headers: { Authorization: `Bearer ${token}` },
           });
-
+          if (!res.ok) {
+            throw new Error(`Failed to load current user: ${res.status}`);
+          }
           const user = await res.json();
           dispatch(setCredentials({ token, user }));
         } catch (err) {

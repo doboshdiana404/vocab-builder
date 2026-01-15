@@ -2,10 +2,9 @@ import { StyleSheet } from "react-native";
 
 export const wordsTableStyles = StyleSheet.create({
   container: {
-    overflow: "hidden",
+    flex: 1,
     backgroundColor: "#f8f8f8",
     paddingHorizontal: 16,
-    paddingTop: 16,
   },
 
   headerRow: {
@@ -20,8 +19,10 @@ export const wordsTableStyles = StyleSheet.create({
     textAlign: "center",
     color: "#121417",
     fontSize: 16,
-    fontWeight: "600",
     paddingVertical: 12,
+    paddingHorizontal: 8,
+
+    fontFamily: "FixelDisplayMedium",
   },
 
   row: {
@@ -33,11 +34,9 @@ export const wordsTableStyles = StyleSheet.create({
 
   cell: {
     justifyContent: "center",
-    alignItems: "center",
     borderRightWidth: 1,
     borderColor: "#dbdbdb",
-    paddingVertical: 12,
-    paddingHorizontal: 8,
+    padding: 16,
     minHeight: 70,
   },
 
@@ -47,7 +46,7 @@ export const wordsTableStyles = StyleSheet.create({
 
   cellText: {
     color: "#121417",
-    textAlign: "center",
+    fontFamily: "FixelDisplayMedium",
   },
 
   modalOverlay: {
@@ -82,5 +81,8 @@ export const wordsTableStyles = StyleSheet.create({
     fontSize: 14,
     color: "#121417",
     fontFamily: "FixelDisplayMedium",
+  },
+  progress: {
+    alignItems: "center",
   },
 });

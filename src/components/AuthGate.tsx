@@ -1,46 +1,71 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter, useSegments } from "expo-router";
-import { useEffect } from "react";
+import { useRootNavigationState, useRouter, useSegments } from "expo-router";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFromStorage } from "../store/api/auth/authSlice";
+
+import { useGetProfileQuery } from "../store/api/auth/authApi";
+import { logout, setFromStorage } from "../store/api/auth/authSlice";
 import { RootState } from "../store/store";
 
 export default function AuthGate({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const segments = useSegments();
+  const navState = useRootNavigationState();
+  const navReady = !!navState?.key;
+
   const dispatch = useDispatch();
   const { token, isInitialized } = useSelector((s: RootState) => s.auth);
 
   useEffect(() => {
-    const loadAuth = async () => {
+    (async () => {
       try {
         const json = await AsyncStorage.getItem("auth");
-        if (json) {
-          dispatch(setFromStorage(JSON.parse(json)));
-        } else {
-          dispatch(setFromStorage(null));
-        }
-      } catch (e) {
-        console.log("Failed to load auth", e);
+        dispatch(setFromStorage(json ? JSON.parse(json) : null));
+      } catch {
         dispatch(setFromStorage(null));
       }
-    };
-    loadAuth();
-  }, []);
+    })();
+  }, [dispatch]);
+
+  const { isFetching, isSuccess, isError, error } = useGetProfileQuery(
+    undefined,
+    { skip: !isInitialized || !token }
+  );
+
+  const status = (error as any)?.status;
+  const isAuthError = status === 401 || status === 403;
 
   useEffect(() => {
-    if (!isInitialized) return;
+    if (!navReady || !isInitialized) return;
 
-    const inAuthGroup = segments[0] === "login" || segments[0] === "register";
+    const top = segments[0];
+    const inAuth = top === "login" || top === "register";
 
-    if (!token && !inAuthGroup) {
+    if (!token) {
+      if (!inAuth) router.replace("/login");
+      return;
+    }
+
+    if (isError && isAuthError) {
+      dispatch(logout());
       router.replace("/login");
-    } else if (token && inAuthGroup) {
+      return;
+    }
+
+    if (isSuccess && inAuth) {
       router.replace("/(tabs)");
     }
-  }, [token, isInitialized, segments]);
-
-  if (!isInitialized) return null;
+  }, [
+    navReady,
+    isInitialized,
+    segments,
+    token,
+    isError,
+    isAuthError,
+    isSuccess,
+    dispatch,
+    router,
+  ]);
 
   return <>{children}</>;
 }

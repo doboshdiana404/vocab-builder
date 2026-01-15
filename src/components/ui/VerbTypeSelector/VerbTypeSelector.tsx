@@ -32,7 +32,7 @@ export default function VerbTypeSelector({
           </View>
           <Text style={styles.verbTypeText}>{type}</Text>
         </TouchableOpacity>
-      ))}{" "}
+      ))}
     </View>
   );
 }

@@ -1,38 +1,76 @@
 import { Platform, StyleSheet } from "react-native";
-
 export const styles = StyleSheet.create({
-  wrapper: { position: "relative", zIndex: 1000 },
-  dropdown: {
+  wrapper: {
+    position: "relative",
+  },
+
+  control: {
     borderColor: "rgba(18, 20, 23, 0.1)",
+    borderWidth: 1,
     borderRadius: 15,
     backgroundColor: "#f8f8f8",
     paddingVertical: 12,
     paddingHorizontal: 24,
     minHeight: 48,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  dropdownContainer: {
-    borderColor: "#E3E3E3",
+
+  controlText: {
+    fontSize: 16,
+    color: "#121417",
+    fontFamily: "FixelDisplayMedium",
+  },
+
+  portalRoot: {
+    ...StyleSheet.absoluteFillObject,
+  },
+
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "transparent",
+  },
+
+  dropdown: {
+    position: "absolute",
     backgroundColor: "#fff",
     borderRadius: 15,
-    maxHeight: 240,
+    overflow: "hidden",
+
     ...Platform.select({
       ios: {
-        shadowColor: "#121417",
+        shadowColor: "rgba(18, 20, 23, 0.08)",
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 10,
+        shadowOpacity: 1,
+        shadowRadius: 47,
       },
-      android: { elevation: 8 },
+      android: {
+        elevation: 12,
+      },
     }),
   },
-  text: { fontSize: 16, color: "#121417", fontFamily: "FixelDisplayMedium" },
-  label: { color: "#121417", fontSize: 16 },
-  listItemLabel: { fontFamily: "FixelDisplayMedium", fontSize: 16 },
-  listItem: { paddingVertical: 4, paddingHorizontal: 24 },
-  listItemText: {
+
+  scrollContent: {
+    paddingVertical: 0,
+  },
+
+  item: {
+    paddingVertical: 4,
+  },
+
+  itemText: {
     fontSize: 16,
     color: "rgba(18, 20, 23, 0.5)",
-    fontFamily: "FixelDisplayRegular",
+    fontFamily: "FixelDisplayMedium",
   },
-  listItemTextSelected: { color: "#85aa9f" },
+
+  itemTextSelected: {
+    color: "#85aa9f",
+  },
+  dropdownInner: {
+    flex: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+  },
 });

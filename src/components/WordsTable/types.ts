@@ -8,6 +8,7 @@ export interface Word {
 
 export interface WordsTableProps {
   words: Word[];
+  loading?: boolean;
   onEdit?: (word: Word) => void;
   onRefresh?: () => void;
   onAdd?: (word: Word) => Promise<boolean> | boolean;
@@ -40,3 +41,7 @@ export interface WordActionsModalProps {
   onEdit: () => void;
   onDelete: () => void;
 }
+
+export type Props = WordsTableProps & {
+  ListHeaderComponent?: React.ReactElement | null;
+};

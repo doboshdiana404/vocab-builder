@@ -1,10 +1,10 @@
+import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import ProgressBar from "../ui/ProgressBar/ProgressBar";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 import type { WordRowProps } from "./types";
-import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
 
 export default function WordRow({
   item,
@@ -31,17 +31,17 @@ export default function WordRow({
   };
   return (
     <View style={styles.row}>
-      <Text style={[styles.cellText, styles.cell, { width: colWord }]}>
-        {item.en}
-      </Text>
-
-      <Text style={[styles.cellText, styles.cell, { width: colTranslation }]}>
-        {item.ua}
-      </Text>
-
-      <View style={[styles.cell, { width: colProgress, alignItems: "center" }]}>
+      <View style={[styles.cell, { width: colWord }]}>
+        <Text style={styles.cellText}>{item.en}</Text>
+      </View>
+      <View style={[styles.cell, { width: colTranslation }]}>
+        <Text style={styles.cellText}>{item.ua}</Text>
+      </View>
+      <View style={[styles.cell, { width: colProgress }]}>
         {mode === "own" ? (
-          <ProgressBar progress={item.progress} />
+          <View style={styles.progress}>
+            <ProgressBar progress={item.progress} />
+          </View>
         ) : (
           <Text style={styles.categoryText}>{item.category}</Text>
         )}

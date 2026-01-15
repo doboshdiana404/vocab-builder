@@ -9,10 +9,11 @@ import useColumnWidths from "./useColumnWidths";
 
 import { useDeleteWordMutation } from "@/src/store/api";
 import WordsPagination from "../WordsPagination/WordsPagination";
-import type { Word, WordsTableProps } from "./types";
+import type { Props, Word } from "./types";
 
 export default function WordsTable({
   words,
+  loading,
   onEdit,
   onRefresh,
   page,
@@ -20,7 +21,8 @@ export default function WordsTable({
   setPage,
   mode,
   onAdd,
-}: WordsTableProps) {
+  ListHeaderComponent,
+}: Props) {
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalPos, setModalPos] = useState({ top: 0, left: 0 });
@@ -53,17 +55,14 @@ export default function WordsTable({
 
   return (
     <View style={styles.container}>
-      <WordsHeader
-        colWord={colWord}
-        colTranslation={colTranslation}
-        colProgress={colProgress}
-        colActions={colActions}
-        mode={mode}
-      />
-
       <FlatList
         data={words}
         keyExtractor={(item) => item._id}
+        removeClippedSubviews={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ paddingBottom: 130 }}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <WordRow
             item={item}
@@ -76,9 +75,33 @@ export default function WordsTable({
             onAdd={onAdd}
           />
         )}
+        ListHeaderComponent={() => (
+          <View style={{ position: "relative" }}>
+            <View style={{ position: "relative" }}>
+              {ListHeaderComponent ?? null}
+            </View>
+            <View style={{ position: "relative" }}>
+              <WordsHeader
+                colWord={colWord}
+                colTranslation={colTranslation}
+                colProgress={colProgress}
+                colActions={colActions}
+                mode={mode}
+              />
+            </View>
+          </View>
+        )}
+        ListFooterComponent={() => (
+          <View>
+            <WordsPagination
+              page={page}
+              totalPages={totalPages}
+              setPage={setPage}
+            />
+          </View>
+        )}
       />
 
-      <WordsPagination page={page} totalPages={totalPages} setPage={setPage} />
       {mode === "own" && (
         <WordActionsModal
           isVisible={isModalVisible}
