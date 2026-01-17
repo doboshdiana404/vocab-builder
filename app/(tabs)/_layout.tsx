@@ -6,6 +6,7 @@ import Training from "@/assets/icons/training.svg";
 import Header from "@/src/components/Header/Header";
 import { HapticTab } from "@/src/components/haptic-tab";
 import { Tabs } from "expo-router";
+import { Platform } from "react-native";
 export default function TabLayout() {
   return (
     <>
@@ -14,7 +15,9 @@ export default function TabLayout() {
         screenOptions={{
           headerShown: false,
           tabBarButton: HapticTab,
-          tabBarStyle: {
+          tabBarStyle: Platform.OS === "android" 
+          ? { display: "none" } 
+          : {
             backgroundColor: "rgba(133, 170, 159, 0.94)",
             borderTopWidth: 0,
             backdropFilter: "blur(20px)",

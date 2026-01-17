@@ -14,7 +14,6 @@ export const headerStyles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
-  avatar: {},
   userIconWrap: {
     width: 48,
     height: 48,
@@ -40,6 +39,12 @@ export const headerStyles = StyleSheet.create({
     alignItems: "center",
   },
   backButton: {
+    position: "absolute",
+    left: 18,
+    bottom: 32,
+    padding: 8,
+  },
+  burgerButton: {
     position: "absolute",
     left: 18,
     bottom: 32,
