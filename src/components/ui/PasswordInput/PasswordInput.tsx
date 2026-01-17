@@ -11,9 +11,12 @@ export default function PasswordInput({
   onChangeText,
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
-
+  const [focused, setFocused] = useState(false);
   return (
-    <View style={styles.passwordContainer}>
+    <View style={[
+      styles.passwordContainer,
+      focused && { borderColor: "#85aa9f" }
+    ]}>
       <TextInput
         style={styles.inputPassword}
         placeholder="Password"
@@ -21,6 +24,8 @@ export default function PasswordInput({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={!showPassword}
+        onFocus={() => setFocused(true)}
+    onBlur={() => setFocused(false)}
       />
       <TouchableOpacity
         style={styles.eyeIcon}

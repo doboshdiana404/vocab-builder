@@ -24,6 +24,7 @@ export default function LoginScreen() {
 
   const [login, { isLoading, error }] = useLoginMutation();
 
+  const [emailFocused, setEmailFocused] = useState(false);
   const handleLogin = async () => {
     if (isLoading) return;
     try {
@@ -63,8 +64,10 @@ export default function LoginScreen() {
             </Text>
 
             <TextInput
-              style={styles.input}
-              placeholder="Email"
+ style={[
+  styles.input,
+  emailFocused && { borderColor: "#85aa9f" }
+]}              placeholder="Email"
               placeholderTextColor="#121417"
               value={email}
               onChangeText={setEmail}
@@ -72,6 +75,8 @@ export default function LoginScreen() {
               autoCorrect={false}
               keyboardType="email-address"
               textContentType="emailAddress"
+              onFocus={() => setEmailFocused(true)}
+              onBlur={() => setEmailFocused(false)}
             />
 
             <PasswordInput value={password} onChangeText={setPassword} />

@@ -1,13 +1,13 @@
-import Dashboard from "@/src/components/Dashboard/Dashboard";
-import WordsTable from "@/src/components/WordsTable/WordsTable";
+import Dashboard from "@/src/features/words/components/Dashboard/Dashboard";
+import WordsTable from "@/src/features/words/components/WordsTable/WordsTable";
 import { useAddWordMutation, useGetAllWordsQuery } from "@/src/store/api";
+import { AddWordRequest } from "@/src/store/api/words/types";
 import { RootState } from "@/src/store/store";
+import { Word } from "@/src/types";
 import { useToast } from "expo-toast";
 import { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useSelector } from "react-redux";
-import { Word } from "./types";
-
 export default function RecommendScreen() {
   const { token, isInitialized } = useSelector(
     (state: RootState) => state.auth
@@ -35,7 +35,7 @@ export default function RecommendScreen() {
 
   const handleAddWord = async (word: Word) => {
     try {
-      const payload: any = {
+      const payload: AddWordRequest = {
         en: word.en,
         ua: word.ua,
         category: word.category,

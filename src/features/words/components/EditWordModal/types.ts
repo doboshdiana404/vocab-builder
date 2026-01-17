@@ -1,10 +1,4 @@
-type Word = {
-  _id: string;
-  ua: string;
-  en: string;
-  category: string;
-  isIrregular?: boolean;
-};
+import { Word } from "@/src/types";
 
 export type EditWordModalProps = {
   visible: boolean;

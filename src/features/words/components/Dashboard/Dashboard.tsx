@@ -7,9 +7,10 @@ import Search from "@/assets/icons/search.svg";
 
 import { useGetCategoriesQuery, useGetStatisticsQuery } from "@/src/store/api";
 import { useRouter, useSegments } from "expo-router";
-import CategoryPicker from "../ui/CategoryPicker/CategoryPicker";
-import { ItemType } from "../ui/CategoryPicker/types";
-import VerbTypeSelector from "../ui/VerbTypeSelector/VerbTypeSelector";
+
+import CategoryPicker from "@/src/components/ui/CategoryPicker/CategoryPicker";
+import { ItemType } from "@/src/components/ui/CategoryPicker/types";
+import VerbTypeSelector from "@/src/components/ui/VerbTypeSelector/VerbTypeSelector";
 import { dashboardStyles as styles } from "./Dashboard.styles";
 import { Category, DashboardProps } from "./types";
 

@@ -4,13 +4,13 @@ import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 
 import CategoryPicker from "@/src/components/ui/CategoryPicker/CategoryPicker";
+import { ItemType } from "@/src/components/ui/CategoryPicker/types";
 import Input from "@/src/components/ui/Input/Input";
 import VerbTypeSelector from "@/src/components/ui/VerbTypeSelector/VerbTypeSelector";
 import { useAddWordMutation, useGetCategoriesQuery } from "@/src/store/api";
+import { AddWordRequest } from "@/src/store/api/words/types";
 import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { addWordStyles as styles } from "./AddWord.style";
-import { ItemType } from "./types";
-
 const enRegex = /\b[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*\b/;
 const uaRegex = /^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ',\s]+$/u;
 
@@ -57,7 +57,7 @@ export default function AddWordScreen() {
     if (!validate()) return;
 
     try {
-      const body: any = { en: en.trim(), ua: ua.trim(), category };
+      const body: AddWordRequest = { en: en.trim(), ua: ua.trim(), category };
       if (category?.toLowerCase() === "verb" && verbType) {
         body.isIrregular = verbType === "irregular";
       }

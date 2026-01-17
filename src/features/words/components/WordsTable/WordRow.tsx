@@ -1,8 +1,8 @@
 import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
+import ProgressBar from "@/src/components/ui/ProgressBar/ProgressBar";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import ProgressBar from "../ui/ProgressBar/ProgressBar";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 import type { WordRowProps } from "./types";
 

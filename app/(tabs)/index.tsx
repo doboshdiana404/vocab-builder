@@ -1,13 +1,12 @@
-import Dashboard from "@/src/components/Dashboard/Dashboard";
-import EditWordModal from "@/src/components/EditWordModal/EditWordModal";
-import WordsTable from "@/src/components/WordsTable/WordsTable";
+import Dashboard from "@/src/features/words/components/Dashboard/Dashboard";
+import EditWordModal from "@/src/features/words/components/EditWordModal/EditWordModal";
+import WordsTable from "@/src/features/words/components/WordsTable/WordsTable";
 import { useGetWordsQuery } from "@/src/store/api";
 import { RootState } from "@/src/store/store";
 import { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useSelector } from "react-redux";
-import { Word } from "../../src/components/WordsTable/types";
-
+import { Word } from "@/src/types";
 export default function HomeScreen() {
   const { token, isInitialized } = useSelector(
     (state: RootState) => state.auth

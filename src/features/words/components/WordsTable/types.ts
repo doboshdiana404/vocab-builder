@@ -1,10 +1,5 @@
-export interface Word {
-  _id: string;
-  en: string;
-  ua: string;
-  category: string;
-  progress: number;
-}
+import { Word } from "@/src/types";
+
 
 export interface WordsTableProps {
   words: Word[];
@@ -17,6 +12,7 @@ export interface WordsTableProps {
   setPage: (page: number) => void;
   mode?: "own" | "all";
 }
+
 export interface WordsHeaderProps {
   colWord: number;
   colTranslation: number;
@@ -24,6 +20,7 @@ export interface WordsHeaderProps {
   colActions: number;
   mode?: "own" | "all";
 }
+
 export interface WordRowProps {
   item: Word;
   colWord: number;
@@ -34,6 +31,7 @@ export interface WordRowProps {
   onEllipsisPress: (pos: { top: number; left: number }, word: Word) => void;
   onAdd?: (word: Word) => Promise<boolean> | boolean;
 }
+
 export interface WordActionsModalProps {
   isVisible: boolean;
   position: { top: number; left: number };

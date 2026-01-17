@@ -24,7 +24,8 @@ export default function RegisterScreen() {
   const [name, setName] = useState("");
 
   const [register, { isLoading, error, isSuccess }] = useRegisterMutation();
-
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [nameFocused, setNameFocused] = useState(false);
   const getRegisterErrorMessage = (err: any) => {
     const status = err?.status;
 
@@ -98,18 +99,24 @@ export default function RegisterScreen() {
             </Text>
 
             <TextInput
-              style={styles.input}
-              placeholder="Name"
+ style={[
+    styles.input,
+    nameFocused && { borderColor: "#85aa9f" }
+  ]}              placeholder="Name"
               placeholderTextColor="#121417"
               value={name}
               onChangeText={setName}
               autoCorrect={false}
               textContentType="name"
+              onFocus={() => setNameFocused(true)}
+              onBlur={() => setNameFocused(false)}
             />
 
             <TextInput
-              style={styles.input}
-              placeholder="Email"
+ style={[
+  styles.input,
+  emailFocused && { borderColor: "#85aa9f" }
+]}              placeholder="Email"
               placeholderTextColor="#121417"
               value={email}
               onChangeText={setEmail}
@@ -117,6 +124,8 @@ export default function RegisterScreen() {
               autoCorrect={false}
               keyboardType="email-address"
               textContentType="emailAddress"
+              onFocus={() => setEmailFocused(true)}
+              onBlur={() => setEmailFocused(false)}
             />
 
             <PasswordInput value={password} onChangeText={setPassword} />

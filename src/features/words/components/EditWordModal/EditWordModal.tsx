@@ -5,8 +5,9 @@ import { useUpdateWordMutation } from "@/src/store/api";
 import { useToast } from "expo-toast";
 import React, { JSX, useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import SwipeableBottomSheet from "../SwipeableBottomSheet/SwipeableBottomSheet";
-import Input from "../ui/Input/Input";
+
+import SwipeableBottomSheet from "@/src/components/SwipeableBottomSheet/SwipeableBottomSheet";
+import Input from "@/src/components/ui/Input/Input";
 import { editWordModalStyles as styles } from "./EditWordModal.styles";
 import { EditWordModalProps, FormErrors } from "./types";
 

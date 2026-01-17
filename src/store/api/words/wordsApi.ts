@@ -1,9 +1,16 @@
 
+import type { Word } from "@/src/types";
 import { baseApi } from "../baseApi";
-
+import type {
+  AddWordRequest,
+  GetAllWordsResponse,
+  GetWordsParams,
+  GetWordsResponse,
+  UpdateWordParams,
+} from "./types";
 export const wordsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getWords: builder.query({
+    getWords: builder.query<GetWordsResponse, GetWordsParams>({
       query: ({
         keyword = "",
         category = null,
@@ -35,7 +42,7 @@ export const wordsApi = baseApi.injectEndpoints({
           : [{ type: "Words", id: "LIST" }],
     }),
 
-    getAllWords: builder.query({
+    getAllWords: builder.query<GetAllWordsResponse, GetWordsParams>({
       query: ({
         keyword = "",
         category = null,
@@ -67,7 +74,7 @@ export const wordsApi = baseApi.injectEndpoints({
           : [{ type: "Words", id: "LIST" }],
     }),
 
-    addWord: builder.mutation({
+    addWord: builder.mutation<Word, AddWordRequest>({
       query: (body) => ({
         url: "/words/create",
         method: "POST",
@@ -87,7 +94,7 @@ export const wordsApi = baseApi.injectEndpoints({
         "Statistics",
       ],
     }),
-    updateWord: builder.mutation({
+    updateWord: builder.mutation<Word, UpdateWordParams>({
       query: ({ id, body }) => ({
         url: `/words/edit/${id}`,
         method: "PATCH",

@@ -1,24 +1,20 @@
 import { baseApi } from "../baseApi";
-
+import type {
+  GetTrainingTasksResponse,
+  SendTrainingAnswersRequest,
+  SendTrainingAnswersResponse,
+} from "./types";
 export const trainingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getTrainingTasks: builder.query<
-      { tasks: { _id: string; ua?: string; en?: string; task: "en" | "ua" }[] },
-      void
-    >({
+    getTrainingTasks: builder.query<GetTrainingTasksResponse, void>({
       query: () => "/words/tasks",
       providesTags: ["Words"],
     }),
 
     sendTrainingAnswers: builder.mutation<
-      any,
-      {
-        _id: string;
-        task: "en" | "ua";
-        ua: string;
-        en?: string;
-      }[]
-    >({
+    SendTrainingAnswersResponse,
+    SendTrainingAnswersRequest[]
+  >({
       query: (answers) => ({
         url: "/words/answers",
         method: "POST",

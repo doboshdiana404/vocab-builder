@@ -8,8 +8,9 @@ import WordsHeader from "./WordsHeader";
 import useColumnWidths from "./useColumnWidths";
 
 import { useDeleteWordMutation } from "@/src/store/api";
+import type { Word } from "@/src/types";
 import WordsPagination from "../WordsPagination/WordsPagination";
-import type { Props, Word } from "./types";
+import type { Props } from "./types";
 
 export default function WordsTable({
   words,

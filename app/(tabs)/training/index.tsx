@@ -16,7 +16,7 @@ import {
   useSendTrainingAnswersMutation,
 } from "@/src/store/api/training/trainingApi";
 
-import TrainingEmptyState from "@/src/features/training/components/TrainingEmptyState";
+import TrainingEmptyState from "@/src/features/training/components/TrainingEmptyState/TrainingEmptyState";
 import { getTrainingView } from "../../../src/features/training/training.utils";
 import { useTraining } from "../../../src/features/training/useTraining";
 import { trainingStyles as styles } from "./Training.styles";
