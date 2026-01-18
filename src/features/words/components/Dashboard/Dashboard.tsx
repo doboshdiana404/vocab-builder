@@ -134,7 +134,8 @@ export default function Dashboard({
 
         <TouchableOpacity onPress={() => router.push("/training")}>
           <Text style={styles.train}>
-            Train oneself <ArrowHorizontal width={20} height={20} />
+            Train oneself
+            <ArrowHorizontal width={20} height={20} stroke="#85AA9F" />
           </Text>
         </TouchableOpacity>
       </View>

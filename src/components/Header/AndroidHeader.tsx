@@ -13,27 +13,28 @@ export default function AndroidHeader() {
   const [menuVisible, setMenuVisible] = useState(false);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.left}>
-        <Craftwork width={36} height={36} />
-        <Text style={styles.title}>VocabBuilder</Text>
-      </View>
-
-      <View style={styles.right}>
-        <View style={styles.user}>
-          <Text style={styles.name}>
-            {capitalizeName(user?.name) || "User"}
-          </Text>
-          <View style={styles.userIconWrap}>
-            <User width={20} height={20} />
-          </View>
+    <View>
+      <View style={styles.container}>
+        <View style={styles.left}>
+          <Craftwork width={36} height={36} />
+          <Text style={styles.title}>VocabBuilder</Text>
         </View>
 
-        <TouchableOpacity onPress={() => setMenuVisible(true)}>
-          <Nav width={32} height={22} />
-        </TouchableOpacity>
-      </View>
+        <View style={styles.right}>
+          <View style={styles.user}>
+            <Text style={styles.name}>
+              {capitalizeName(user?.name) || "User"}
+            </Text>
+            <View style={styles.userIconWrap}>
+              <User width={20} height={20} fill="#fcfcfc" />
+            </View>
+          </View>
 
+          <TouchableOpacity onPress={() => setMenuVisible(true)} hitSlop={10}>
+            <Nav width={32} height={22} />
+          </TouchableOpacity>
+        </View>
+      </View>
       <NavigationMenu
         visible={menuVisible}
         onClose={() => setMenuVisible(false)}

@@ -44,7 +44,7 @@ export default function IosHeader() {
 
       <View style={styles.user}>
         <View style={styles.userIconWrap}>
-          <User width={24} height={24} />
+          <User width={24} height={24} fill="#fcfcfc" />
         </View>
         <Text style={styles.name}>{capitalizeName(user?.name) || "User"}</Text>
       </View>

@@ -40,7 +40,7 @@ export default function WordRow({
       <View style={[styles.cell, { width: colProgress }]}>
         {mode === "own" ? (
           <View style={styles.progress}>
-            <ProgressBar progress={item.progress} />
+            <ProgressBar progress={item.progress ?? 0} />
           </View>
         ) : (
           <Text style={styles.categoryText}>{item.category}</Text>
@@ -54,7 +54,7 @@ export default function WordRow({
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={handleAdd}>
-            <ArrowHorizontal width={20} height={20} />
+            <ArrowHorizontal width={20} height={20} stroke="#85AA9F" />
           </TouchableOpacity>
         )}
       </View>

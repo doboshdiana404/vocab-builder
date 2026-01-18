@@ -135,7 +135,7 @@ export default function TrainingScreen() {
                 style={styles.nextWrap}
               >
                 <Text style={styles.next}>Next</Text>
-                <ArrowHorizontal width={20} height={20} />
+                <ArrowHorizontal width={20} height={20} stroke="#85AA9F" />
               </TouchableOpacity>
             )}
 
