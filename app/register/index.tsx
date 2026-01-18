@@ -1,3 +1,4 @@
+import AppLogo from "@/src/components/AppLogo/AppLogo";
 import PasswordInput from "@/src/components/ui/PasswordInput/PasswordInput";
 import { useRegisterMutation } from "@/src/store/api";
 import { useRouter } from "expo-router";
@@ -78,6 +79,11 @@ export default function RegisterScreen() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.root}>
+        {Platform.OS === "android" && (
+          <View style={styles.logoWrap}>
+            <AppLogo />
+          </View>
+        )}
         <View style={styles.imageContainer}>
           <Image
             source={require("@/assets/images/authillustraton.png")}
@@ -99,10 +105,8 @@ export default function RegisterScreen() {
             </Text>
 
             <TextInput
- style={[
-    styles.input,
-    nameFocused && { borderColor: "#85aa9f" }
-  ]}              placeholder="Name"
+              style={[styles.input, nameFocused && { borderColor: "#85aa9f" }]}
+              placeholder="Name"
               placeholderTextColor="#121417"
               value={name}
               onChangeText={setName}
@@ -113,10 +117,8 @@ export default function RegisterScreen() {
             />
 
             <TextInput
- style={[
-  styles.input,
-  emailFocused && { borderColor: "#85aa9f" }
-]}              placeholder="Email"
+              style={[styles.input, emailFocused && { borderColor: "#85aa9f" }]}
+              placeholder="Email"
               placeholderTextColor="#121417"
               value={email}
               onChangeText={setEmail}

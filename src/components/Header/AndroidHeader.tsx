@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import NavigationMenu from "../NavigationMenu/NavigationMenu";
 import { styles } from "./AndroidHeader.styles";
+import AppLogo from "../AppLogo/AppLogo";
 
 export default function AndroidHeader() {
   const { user } = useAppSelector((s) => s.auth);
@@ -15,10 +16,7 @@ export default function AndroidHeader() {
   return (
     <View>
       <View style={styles.container}>
-        <View style={styles.left}>
-          <Craftwork width={36} height={36} />
-          <Text style={styles.title}>VocabBuilder</Text>
-        </View>
+        <AppLogo />
 
         <View style={styles.right}>
           <View style={styles.user}>

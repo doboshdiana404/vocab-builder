@@ -16,6 +16,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import AppLogo from "@/src/components/AppLogo/AppLogo";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -41,6 +42,11 @@ export default function LoginScreen() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.root}>
+        {Platform.OS === "android" && (
+          <View style={styles.logoWrap}>
+            <AppLogo />
+          </View>
+        )}
         <View style={styles.imageContainer}>
           <Image
             source={require("@/assets/images/authillustraton.png")}
@@ -64,10 +70,8 @@ export default function LoginScreen() {
             </Text>
 
             <TextInput
- style={[
-  styles.input,
-  emailFocused && { borderColor: "#85aa9f" }
-]}              placeholder="Email"
+              style={[styles.input, emailFocused && { borderColor: "#85aa9f" }]}
+              placeholder="Email"
               placeholderTextColor="#121417"
               value={email}
               onChangeText={setEmail}

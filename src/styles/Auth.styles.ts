@@ -103,4 +103,8 @@ export const authStyles = StyleSheet.create({
   eyeIcon: {
     padding: 4,
   },
+  logoWrap: {
+    paddingTop: 30,
+    paddingLeft: 20,
+  },
 });

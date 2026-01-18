@@ -10,16 +10,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  left: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 16,
-  },
-  title: {
-    fontSize: 18,
-    color: "#121417",
-    fontFamily: "FixelDisplaySemiBold",
-  },
+
   right: {
     flexDirection: "row",
     alignItems: "center",

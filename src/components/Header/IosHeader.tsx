@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/src/store/hooks/useAuth";
 import { capitalizeName } from "@/src/utils/capitalizeName";
 import { useGlobalSearchParams, usePathname, useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
-import { headerStyles as styles } from "./Header.styles";
+import { headerStyles as styles } from "./IosHeader.styles";
 export default function IosHeader() {
   const dispatch = useAppDispatch();
   const router = useRouter();
