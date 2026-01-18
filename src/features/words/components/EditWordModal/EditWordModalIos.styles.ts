@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const editWordModalStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   modalBox: {
     backgroundColor: "#ecf0ef",
     paddingHorizontal: 16,

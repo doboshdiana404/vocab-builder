@@ -7,4 +7,6 @@ export type InputProps = {
   error?: string;
   containerStyle?: any;
   stable?: boolean;
+  changeColor?: string;
+  borderChangeColor?: string;
 };

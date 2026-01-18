@@ -1,6 +1,6 @@
-import { inputStyles as styles } from "./Input.styles";
 import React, { useState } from "react";
 import { Text, TextInput, View } from "react-native";
+import { inputStyles as styles } from "./Input.styles";
 import { InputProps } from "./types";
 
 export default function Input({
@@ -12,20 +12,22 @@ export default function Input({
   error,
   containerStyle,
   stable = false,
+  changeColor = "#121417",
+  borderChangeColor = "rgba(18, 20, 23, 0.1)",
 }: InputProps) {
   const [focused, setFocused] = useState(false);
 
   const borderColor = error
     ? "#FF6B6B"
     : focused
-    ? "#85aa9f"
-    : "rgba(18, 20, 23, 0.1)";
+      ? "#85aa9f"
+      : borderChangeColor;
 
   return (
     <View style={containerStyle}>
       <View style={styles.labelRow}>
         {icon}
-        <Text style={styles.label}>{label}</Text>
+        <Text style={[styles.label, { color: changeColor }]}>{label}</Text>
       </View>
 
       <TextInput
@@ -37,7 +39,8 @@ export default function Input({
         onBlur={stable ? undefined : () => setFocused(false)}
         style={[
           styles.input,
-          { borderColor: stable ? "rgba(18, 20, 23, 0.1)" : borderColor },
+          { color: changeColor },
+          { borderColor: stable ? borderChangeColor : borderColor },
         ]}
         autoCorrect={false}
         autoCapitalize="none"
