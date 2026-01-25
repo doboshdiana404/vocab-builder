@@ -5,12 +5,13 @@ import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
 import Plus from "@/assets/icons/plus.svg";
 import Search from "@/assets/icons/search.svg";
 
-import { useGetCategoriesQuery, useGetStatisticsQuery } from "@/src/store/api";
 import { useRouter, useSegments } from "expo-router";
 
 import CategoryPicker from "@/src/components/ui/CategoryPicker/CategoryPicker";
 import { ItemType } from "@/src/components/ui/CategoryPicker/types";
 import VerbTypeSelector from "@/src/components/ui/VerbTypeSelector/VerbTypeSelector";
+import { useGetCategoriesQuery } from "@/src/features/categories/api/categoriesApi";
+import { useGetStatisticsQuery } from "@/src/features/statistics/api/statisticsApi";
 import { dashboardStyles as styles } from "./Dashboard.styles";
 import { Category, DashboardProps } from "./types";
 

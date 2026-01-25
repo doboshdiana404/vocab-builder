@@ -3,7 +3,7 @@ import Eye from "@/assets/icons/eye.svg";
 
 import React, { useState } from "react";
 import { TextInput, TouchableOpacity, View } from "react-native";
-import { authStyles as styles } from "../../../styles/Auth.styles";
+import { authStyles as styles } from "../../../features/auth/screens/Auth.styles";
 import { PasswordInputProps } from "./types";
 
 export default function PasswordInput({
@@ -13,10 +13,9 @@ export default function PasswordInput({
   const [showPassword, setShowPassword] = useState(false);
   const [focused, setFocused] = useState(false);
   return (
-    <View style={[
-      styles.passwordContainer,
-      focused && { borderColor: "#85aa9f" }
-    ]}>
+    <View
+      style={[styles.passwordContainer, focused && { borderColor: "#85aa9f" }]}
+    >
       <TextInput
         style={styles.inputPassword}
         placeholder="Password"
@@ -25,7 +24,7 @@ export default function PasswordInput({
         onChangeText={onChangeText}
         secureTextEntry={!showPassword}
         onFocus={() => setFocused(true)}
-    onBlur={() => setFocused(false)}
+        onBlur={() => setFocused(false)}
       />
       <TouchableOpacity
         style={styles.eyeIcon}

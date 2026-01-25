@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 
-import { capitalizeName } from "@/src/utils/capitalizeName";
+import { capitalizeName } from "@/utils/capitalizeName";
 import { styles } from "./CategoryPicker.styles";
 import type { CategoryPickerProps, ItemType } from "./types";
 
@@ -33,7 +33,7 @@ export default function CategoryPicker({
         ...it,
         label: capitalizeName(it.label),
       })),
-    [items]
+    [items],
   );
 
   const selectedLabel = useMemo(() => {

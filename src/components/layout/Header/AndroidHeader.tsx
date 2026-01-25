@@ -1,0 +1,41 @@
+import Nav from "@/assets/icons/nav.svg";
+import User from "@/assets/icons/user.svg";
+import { useAppSelector } from "@/src/features/auth/hooks/useAuth";
+import { capitalizeName } from "@/utils/capitalizeName";
+import { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import AppLogo from "../AppLogo/AppLogo";
+import NavigationMenu from "../NavigationMenu/NavigationMenu";
+import { styles } from "./AndroidHeader.styles";
+
+export default function AndroidHeader() {
+  const { user } = useAppSelector((s) => s.auth);
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  return (
+    <View>
+      <View style={styles.container}>
+        <AppLogo />
+
+        <View style={styles.right}>
+          <View style={styles.user}>
+            <Text style={styles.name}>
+              {capitalizeName(user?.name) || "User"}
+            </Text>
+            <View style={styles.userIconWrap}>
+              <User width={20} height={20} fill="#fcfcfc" />
+            </View>
+          </View>
+
+          <TouchableOpacity onPress={() => setMenuVisible(true)} hitSlop={10}>
+            <Nav width={32} height={22} />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <NavigationMenu
+        visible={menuVisible}
+        onClose={() => setMenuVisible(false)}
+      />
+    </View>
+  );
+}

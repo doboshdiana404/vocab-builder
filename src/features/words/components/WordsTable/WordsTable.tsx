@@ -7,10 +7,10 @@ import WordRow from "./WordRow";
 import WordsHeader from "./WordsHeader";
 import useColumnWidths from "./useColumnWidths";
 
-import { useDeleteWordMutation } from "@/src/store/api";
 import type { Word } from "@/src/types";
 import WordsPagination from "../WordsPagination/WordsPagination";
 import type { Props } from "./types";
+import { useDeleteWordMutation } from "../../api/wordsApi";
 
 export default function WordsTable({
   words,
@@ -47,7 +47,7 @@ export default function WordsTable({
 
   const handleEllipsisPress = (
     pos: { top: number; left: number },
-    word: Word
+    word: Word,
   ) => {
     setModalPos(pos);
     setSelectedWord(word);

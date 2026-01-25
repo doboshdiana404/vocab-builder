@@ -1,4 +1,4 @@
-import AuthGate from "@/src/components/AuthGate";
+import AuthGate from "@/src/features/auth/components/AuthGate";
 import { store } from "@/src/store/store";
 import { PortalProvider } from "@gorhom/portal";
 import { useFonts } from "expo-font";
@@ -39,14 +39,13 @@ export default function RootLayout() {
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen
-                name="login/index"
+                name="(auth)/login"
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="register/index"
+                name="(auth)/register"
                 options={{ headerShown: false }}
               />
-              
             </Stack>
             <StatusBar style="auto" />
           </AuthGate>

@@ -3,8 +3,8 @@ import React from "react";
 import Dictionary from "@/assets/icons/dictionary.svg";
 import Recommend from "@/assets/icons/recommend.svg";
 import Training from "@/assets/icons/training.svg";
-import Header from "@/src/components/Header/Header";
-import { HapticTab } from "@/src/components/haptic-tab";
+import { HapticTab } from "@/hooks/useHapticTab";
+import Header from "@/src/components/layout/Header/Header";
 import { Tabs } from "expo-router";
 import { Platform } from "react-native";
 export default function TabLayout() {
@@ -15,14 +15,15 @@ export default function TabLayout() {
         screenOptions={{
           headerShown: false,
           tabBarButton: HapticTab,
-          tabBarStyle: Platform.OS === "android" 
-          ? { display: "none" } 
-          : {
-            backgroundColor: "rgba(133, 170, 159, 0.94)",
-            borderTopWidth: 0,
-            backdropFilter: "blur(20px)",
-            height: 84,
-          },
+          tabBarStyle:
+            Platform.OS === "android"
+              ? { display: "none" }
+              : {
+                  backgroundColor: "rgba(133, 170, 159, 0.94)",
+                  borderTopWidth: 0,
+                  backdropFilter: "blur(20px)",
+                  height: 84,
+                },
           tabBarActiveTintColor: "#fcfcfc",
           tabBarInactiveTintColor: "rgba(252, 252, 252, 0.5)",
         }}
@@ -42,7 +43,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="recommend/index"
+          name="recommend"
           options={{
             title: "Recommend",
             tabBarLabelStyle: {
@@ -55,7 +56,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="training/index"
+          name="training"
           options={{
             title: "Training",
             tabBarLabelStyle: {
@@ -68,7 +69,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="add-word/index"
+          name="add-word"
           options={{
             href: null,
           }}

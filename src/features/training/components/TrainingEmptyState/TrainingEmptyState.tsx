@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { EmptyProps } from "../../training.types";
+import { EmptyProps } from "../../types";
 import { trainingEmptyStyles as styles } from "./TrainingEmptyState.styles";
 
 export default function TrainingEmptyState({

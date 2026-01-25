@@ -1,2 +1,2 @@
-export * from "./word.types";
-export * from "./api.types";
+export * from "../features/words/types";
+export * from "./common";

@@ -2,7 +2,6 @@ import Close from "@/assets/icons/close.svg";
 import Ukraine from "@/assets/icons/ukraine.svg";
 import UnitedKingdom from "@/assets/icons/united-kingdom.svg";
 
-import { useUpdateWordMutation } from "@/src/store/api";
 import { useToast } from "expo-toast";
 import React, { useEffect, useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
@@ -10,6 +9,7 @@ import { Modal, Text, TouchableOpacity, View } from "react-native";
 import Input from "@/src/components/ui/Input/Input";
 import { styles } from "./EditWordModalAndroid.styles";
 import { EditWordModalProps, FormErrors } from "./types";
+import { useUpdateWordMutation } from "../../api/wordsApi";
 
 export default function EditWordModalAndroid({
   visible,

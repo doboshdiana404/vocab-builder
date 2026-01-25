@@ -1,0 +1,62 @@
+import ChevronLeft from "@/assets/icons/chevron-left.svg";
+import LogOut from "@/assets/icons/log-out.svg";
+import User from "@/assets/icons/user.svg";
+import { logout } from "@/src/features/auth/api/authSlice";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "@/src/features/auth/hooks/useAuth";
+import { capitalizeName } from "@/utils/capitalizeName";
+import { useGlobalSearchParams, usePathname, useRouter } from "expo-router";
+import { Text, TouchableOpacity, View } from "react-native";
+import { headerStyles as styles } from "./IosHeader.styles";
+export default function IosHeader() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { user } = useAppSelector((s) => s.auth);
+
+  const pathname = usePathname();
+  const params = useGlobalSearchParams();
+
+  const isAddWordScreen = pathname.includes("/add-word");
+  const isWellDoneScreen = pathname.includes("/training/well-done");
+
+  const showBack =
+    isAddWordScreen || (isWellDoneScreen && params.hasTasks === "1");
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.replace("/login");
+  };
+
+  const handleGoBack = () => {
+    if (isWellDoneScreen) {
+      router.replace("/(tabs)/training");
+      return;
+    }
+    router.back();
+  };
+
+  return (
+    <View style={styles.container}>
+      {showBack && (
+        <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
+          <ChevronLeft width={12} height={20} />
+        </TouchableOpacity>
+      )}
+
+      <View style={styles.user}>
+        <View style={styles.userIconWrap}>
+          <User width={24} height={24} fill="#fcfcfc" />
+        </View>
+        <Text style={styles.name}>{capitalizeName(user?.name) || "User"}</Text>
+      </View>
+
+      <TouchableOpacity onPress={handleLogout} style={styles.logoutLink}>
+        <Text style={styles.logout}>
+          Log out <LogOut width={16} height={16} />
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
