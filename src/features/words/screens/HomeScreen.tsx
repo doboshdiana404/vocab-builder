@@ -7,7 +7,10 @@ import { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useSelector } from "react-redux";
 import { useGetWordsQuery } from "../api/wordsApi";
-export default function HomeScreen() {
+interface HomeScreenProps {
+  onAddWord: () => void;
+}
+export default function HomeScreen({ onAddWord }: HomeScreenProps) {
   const { token, isInitialized } = useSelector(
     (state: RootState) => state.auth,
   );
@@ -73,6 +76,7 @@ export default function HomeScreen() {
             setVerbType={setVerbType}
             page={page}
             setPage={setPage}
+            onAddWord={onAddWord}
           />
         }
       />

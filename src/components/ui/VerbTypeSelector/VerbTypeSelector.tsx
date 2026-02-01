@@ -6,6 +6,9 @@ import { VerbTypeSelectorProps } from "./types";
 export default function VerbTypeSelector({
   verbType,
   setVerbType,
+  activeColor = "#85aa9f",
+  unActiveColor = "#cacacb",
+  typeColor = "#121417",
 }: VerbTypeSelectorProps) {
   const options = ["Regular", "Irregular"];
 
@@ -22,15 +25,19 @@ export default function VerbTypeSelector({
               styles.radioOuter,
               {
                 borderColor:
-                  verbType === type.toLowerCase() ? "#85aa9f" : "#ccc",
+                  verbType === type.toLowerCase() ? activeColor : unActiveColor,
               },
             ]}
           >
             {verbType === type.toLowerCase() && (
-              <View style={styles.radioInner} />
+              <View
+                style={[styles.radioInner, { backgroundColor: activeColor }]}
+              />
             )}
           </View>
-          <Text style={styles.verbTypeText}>{type}</Text>
+          <Text style={[styles.verbTypeText, { color: typeColor }]}>
+            {type}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>

@@ -1,6 +1,6 @@
 import AuthGate from "@/src/features/auth/components/AuthGate";
 import { store } from "@/src/store/store";
-import { PortalProvider } from "@gorhom/portal";
+import { PortalHost, PortalProvider } from "@gorhom/portal";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -34,6 +34,7 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <PortalProvider>
+        <PortalHost name="root" />
         <ToastProvider>
           <AuthGate>
             <Stack>

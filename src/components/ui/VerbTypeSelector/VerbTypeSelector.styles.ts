@@ -24,7 +24,6 @@ export const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#85aa9f",
   },
   helperText: {
     marginTop: 8,
@@ -35,6 +34,5 @@ export const styles = StyleSheet.create({
   verbTypeText: {
     fontFamily: "FixelDisplayRegular",
     fontSize: 12,
-    color: "#121417",
   },
 });

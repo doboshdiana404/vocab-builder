@@ -15,8 +15,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { styles } from "./SwipeableBottomSheet.styles";
 const SHEET_HEIGHT = 408;
-const SNAP_TOP = 0;
-const SNAP_BOTTOM = SHEET_HEIGHT;
+const CLOSED_POSITION = SHEET_HEIGHT;
+const OPEN_POSITION = 0;
 
 type SwipeableBottomSheetProps = {
   visible: boolean;
@@ -29,11 +29,11 @@ export default function SwipeableBottomSheet({
   onClose,
   children,
 }: SwipeableBottomSheetProps): JSX.Element | null {
-  const translateY: SharedValue<number> = useSharedValue(SNAP_BOTTOM);
+  const translateY: SharedValue<number> = useSharedValue(CLOSED_POSITION);
   const keyboardOffset: SharedValue<number> = useSharedValue(0);
 
   const closeSheet = (): void => {
-    translateY.value = withTiming(SNAP_BOTTOM, { duration: 250 });
+    translateY.value = withTiming(CLOSED_POSITION, { duration: 250 });
     setTimeout(() => {
       onClose();
     }, 250);
@@ -41,21 +41,21 @@ export default function SwipeableBottomSheet({
 
   useEffect((): (() => void) => {
     if (visible) {
-      translateY.value = SNAP_TOP;
+      translateY.value = OPEN_POSITION;
     }
 
     const showSub = Keyboard.addListener(
       Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow",
       (e) => {
         keyboardOffset.value = e.endCoordinates.height - 104;
-      }
+      },
     );
 
     const hideSub = Keyboard.addListener(
       Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
       () => {
         keyboardOffset.value = 0;
-      }
+      },
     );
 
     return (): void => {

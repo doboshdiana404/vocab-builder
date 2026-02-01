@@ -26,6 +26,7 @@ export default function Dashboard({
   setVerbType,
   page,
   setPage,
+  onAddWord,
 }: DashboardProps) {
   const router = useRouter();
   const segments = useSegments();
@@ -126,7 +127,7 @@ export default function Dashboard({
 
       <View style={styles.actions}>
         {currentScreen !== "recommend" && (
-          <TouchableOpacity onPress={() => router.push("/add-word")}>
+          <TouchableOpacity onPress={onAddWord}>
             <Text style={styles.addWord}>
               Add word <Plus width={20} height={20} />
             </Text>

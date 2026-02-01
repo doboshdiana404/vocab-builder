@@ -9,4 +9,7 @@ export type CategoryPickerProps = {
   value: any;
   setValue: (value: any) => void;
   items: ItemType[];
+  changeBackground?: string;
+  changeBorderColor?: string;
+  textColor?: string;
 };

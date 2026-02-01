@@ -5,10 +5,8 @@ export const styles = StyleSheet.create({
   },
 
   control: {
-    borderColor: "rgba(18, 20, 23, 0.1)",
     borderWidth: 1,
     borderRadius: 15,
-    backgroundColor: "#f8f8f8",
     paddingVertical: 12,
     paddingHorizontal: 24,
     minHeight: 48,
@@ -19,7 +17,6 @@ export const styles = StyleSheet.create({
 
   controlText: {
     fontSize: 16,
-    color: "#121417",
     fontFamily: "FixelDisplayMedium",
   },
 
@@ -37,7 +34,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 15,
     overflow: "hidden",
-
+    zIndex: 10000,
     ...Platform.select({
       ios: {
         shadowColor: "rgba(18, 20, 23, 0.08)",

@@ -18,7 +18,11 @@ export default function WordActionsModal({
         <View
           style={[
             styles.modalContent,
-            { position: "absolute", top: position.top, left: position.left },
+            {
+              position: "absolute",
+              top: position.top - 5,
+              left: position.left + 35,
+            },
           ]}
         >
           <TouchableOpacity

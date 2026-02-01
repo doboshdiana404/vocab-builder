@@ -34,7 +34,7 @@ export default function Input({
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#121417"
+        placeholderTextColor={changeColor}
         onFocus={stable ? undefined : () => setFocused(true)}
         onBlur={stable ? undefined : () => setFocused(false)}
         style={[
