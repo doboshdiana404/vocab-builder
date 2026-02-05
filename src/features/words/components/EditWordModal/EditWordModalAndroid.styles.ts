@@ -1,23 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  backdrop: {
-    flex: 1,
-    backgroundColor: "rgba(18, 20, 23, 0.2)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  backdropPressable: {
-    ...StyleSheet.absoluteFillObject,
-  },
-
-  modal: {
-    width: "90%",
-    backgroundColor: "#85aa9f",
-    borderRadius: 15,
-    padding: 16,
+  container: {
     paddingBottom: 48,
+    paddingTop: 16,
+    paddingHorizontal: 16,
   },
 
   header: {

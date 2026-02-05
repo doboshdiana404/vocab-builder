@@ -4,12 +4,13 @@ import UnitedKingdom from "@/assets/icons/united-kingdom.svg";
 
 import { useToast } from "expo-toast";
 import React, { useEffect, useState } from "react";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
+import AndroidModal from "@/src/components/ui/AndroidModal/AndroidModal";
 import Input from "@/src/components/ui/Input/Input";
-import { styles } from "./EditWordModalAndroid.styles";
-import { EditWordModalProps, FormErrors } from "./types";
 import { useUpdateWordMutation } from "../../api/wordsApi";
+import { styles } from "./EditWordModalAndroid.styles";
+import { EditWordModalProps } from "./types";
 
 export default function EditWordModalAndroid({
   visible,
@@ -18,7 +19,6 @@ export default function EditWordModalAndroid({
 }: EditWordModalProps) {
   const [ua, setUa] = useState(word.ua);
   const [en, setEn] = useState(word.en);
-  const [errors, setErrors] = useState<FormErrors>({});
   const toast = useToast();
 
   const [updateWord, { isLoading }] = useUpdateWordMutation();
@@ -50,65 +50,49 @@ export default function EditWordModalAndroid({
   };
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="fade"
-      onRequestClose={onClose}
-      statusBarTranslucent
-    >
-      <View style={styles.backdrop}>
-        <TouchableOpacity
-          style={styles.backdropPressable}
-          activeOpacity={1}
-          onPress={onClose}
-          onPressOut={onClose}
-          accessibilityRole="button"
-          accessibilityLabel="Close modal"
-        />
-        <View style={styles.modal} onStartShouldSetResponder={() => true}>
-          <View style={styles.header}>
-            <TouchableOpacity onPress={onClose}>
-              <Close width={24} height={24} />
-            </TouchableOpacity>
-          </View>
+    <AndroidModal visible={visible} onClose={onClose}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={onClose}>
+            <Close width={24} height={24} />
+          </TouchableOpacity>
+        </View>
 
-          <View style={{ marginBottom: 16 }}>
-            <Input
-              label="Ukrainian"
-              icon={<Ukraine width={24} height={24} />}
-              value={ua}
-              onChangeText={setUa}
-              stable
-              changeColor="#fcfcfc"
-              borderChangeColor="#d1d5db"
-            />
-          </View>
+        <View style={{ marginBottom: 16 }}>
           <Input
-            label="English"
-            icon={<UnitedKingdom width={24} height={24} />}
-            value={en}
-            onChangeText={setEn}
+            label="Ukrainian"
+            icon={<Ukraine width={24} height={24} />}
+            value={ua}
+            onChangeText={setUa}
             stable
             changeColor="#fcfcfc"
             borderChangeColor="#d1d5db"
           />
+        </View>
+        <Input
+          label="English"
+          icon={<UnitedKingdom width={24} height={24} />}
+          value={en}
+          onChangeText={setEn}
+          stable
+          changeColor="#fcfcfc"
+          borderChangeColor="#d1d5db"
+        />
 
-          <View style={styles.actions}>
-            <TouchableOpacity
-              style={styles.saveBtn}
-              onPress={handleSave}
-              disabled={isLoading}
-            >
-              <Text style={styles.saveText}>Save</Text>
-            </TouchableOpacity>
+        <View style={styles.actions}>
+          <TouchableOpacity
+            style={styles.saveBtn}
+            onPress={handleSave}
+            disabled={isLoading}
+          >
+            <Text style={styles.saveText}>Save</Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity style={styles.cancelBtn} onPress={onClose}>
-              <Text style={styles.cancelText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.cancelBtn} onPress={onClose}>
+            <Text style={styles.cancelText}>Cancel</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </Modal>
+    </AndroidModal>
   );
 }

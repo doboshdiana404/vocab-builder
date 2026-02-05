@@ -1,26 +1,41 @@
-import { StyleSheet } from "react-native";
-
+import { Platform, StyleSheet } from "react-native";
+const isAndroid = Platform.OS === "android";
 export const wellDoneStyles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 32,
     backgroundColor: "#F8F8F8",
   },
+
+  androidContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 44,
+  },
+
+  closeButton: {
+    alignSelf: "flex-end",
+    padding: 12,
+  },
+
   imageWrapper: {
-    alignItems: "center",
-    marginBottom: 24,
+    marginTop: isAndroid ? 51 : 0,
+
+    alignItems: isAndroid ? "flex-end" : "center",
+    marginBottom: isAndroid ? 0 : 24,
   },
   image: {
-    maxWidth: 140,
-    maxHeight: 112,
+    maxWidth: isAndroid ? 152 : 140,
+    maxHeight: isAndroid ? 121 : 112,
   },
+
   title: {
     fontSize: 24,
     textAlign: "center",
     marginBottom: 32,
     fontFamily: "FixelDisplaySemiBold",
-    color: "#121417",
+    color: isAndroid ? "#fcfcfc" : "#121417",
   },
+
   columns: {
     flexDirection: "row",
     gap: 16,
@@ -29,12 +44,12 @@ export const wellDoneStyles = StyleSheet.create({
   columnTitle: {
     fontFamily: "FixelDisplayRegular",
     marginBottom: 8,
-    color: "rgba(18, 20, 23, 0.5)",
+    color: isAndroid ? "rgba(252, 252, 252, 0.5)" : "rgba(18, 20, 23, 0.5)",
   },
   resultItem: {
     fontSize: 16,
     marginBottom: 4,
-    color: "#121417",
+    color: isAndroid ? "#fcfcfc" : "#121417",
     fontFamily: "FixelDisplayMedium",
   },
 });
