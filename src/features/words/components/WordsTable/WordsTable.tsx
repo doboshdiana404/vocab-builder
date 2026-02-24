@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Alert, FlatList, View } from "react-native";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 
@@ -8,9 +8,9 @@ import WordsHeader from "./WordsHeader";
 import useColumnWidths from "./useColumnWidths";
 
 import type { Word } from "@/src/types";
+import { useDeleteWordMutation } from "../../api/wordsApi";
 import WordsPagination from "../WordsPagination/WordsPagination";
 import type { Props } from "./types";
-import { useDeleteWordMutation } from "../../api/wordsApi";
 
 export default function WordsTable({
   words,
@@ -31,7 +31,32 @@ export default function WordsTable({
   const [deleteWord] = useDeleteWordMutation();
   const { colWord, colTranslation, colProgress, colActions } =
     useColumnWidths();
-
+  const header = useMemo(
+    () => (
+      <View style={{ position: "relative" }}>
+        <View style={{ position: "relative" }}>
+          {ListHeaderComponent ?? null}
+        </View>
+        <View style={{ position: "relative" }}>
+          <WordsHeader
+            colWord={colWord}
+            colTranslation={colTranslation}
+            colProgress={colProgress}
+            colActions={colActions}
+            mode={mode}
+          />
+        </View>
+      </View>
+    ),
+    [
+      ListHeaderComponent,
+      colWord,
+      colTranslation,
+      colProgress,
+      colActions,
+      mode,
+    ],
+  );
   const handleDelete = async () => {
     if (!selectedWord) return;
 
@@ -76,22 +101,7 @@ export default function WordsTable({
             onAdd={onAdd}
           />
         )}
-        ListHeaderComponent={() => (
-          <View style={{ position: "relative" }}>
-            <View style={{ position: "relative" }}>
-              {ListHeaderComponent ?? null}
-            </View>
-            <View style={{ position: "relative" }}>
-              <WordsHeader
-                colWord={colWord}
-                colTranslation={colTranslation}
-                colProgress={colProgress}
-                colActions={colActions}
-                mode={mode}
-              />
-            </View>
-          </View>
-        )}
+        ListHeaderComponent={header}
         ListFooterComponent={() => (
           <View>
             <WordsPagination

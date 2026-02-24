@@ -13,5 +13,5 @@ export interface DashboardProps {
   setVerbType: React.Dispatch<React.SetStateAction<string | null>>;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  onAddWord: () => void;
+  onAddWord?: () => void;
 }
