@@ -15,16 +15,23 @@ import AuthScreenLayout from "../components/AuthScreenLayout";
 function getErrorMessage(err: any): string {
   const status = err?.status;
 
-  if (status === 409) return "User with this email already exists.";
-  if (status === 400) return "Please check your input data.";
-  if (status === 401 || status === 403)
-    return "Authorization error. Try again.";
-  if (status === "FETCH_ERROR") return "No internet connection.";
-  if (status === "TIMEOUT_ERROR") return "Request timed out. Try again.";
+  if (status === "FETCH_ERROR") {
+    return "No internet connection.";
+  }
 
-  return (
-    err?.data?.message || err?.error || "Registration failed. Try again later."
-  );
+  if (status === "TIMEOUT_ERROR") {
+    return "Request timed out. Try again.";
+  }
+
+  if (status === 401) {
+    return "Invalid email or password.";
+  }
+
+  if (status === 400) {
+    return "Please check your input data.";
+  }
+
+  return err?.data?.message || "Login failed. Try again later.";
 }
 
 export default function RegisterScreen() {
@@ -115,9 +122,7 @@ export default function RegisterScreen() {
         activeOpacity={0.8}
       >
         {isLoading && <ActivityIndicator color="#fff" />}
-        <Text style={styles.buttonText}>
-          {isLoading ? "Registering…" : "Register"}
-        </Text>
+        {!isLoading && <Text style={styles.buttonText}>Register</Text>}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => router.push("/login")}>

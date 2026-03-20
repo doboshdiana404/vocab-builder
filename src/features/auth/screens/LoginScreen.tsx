@@ -5,13 +5,35 @@ import PasswordInput from "@/src/components/ui/PasswordInput/PasswordInput";
 import { useRouter } from "expo-router";
 import {
   ActivityIndicator,
+  Alert,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
 } from "react-native";
 import { useLoginMutation } from "../api/authApi";
 import AuthScreenLayout from "../components/AuthScreenLayout";
+
+function getErrorMessage(err: any): string {
+  const status = err?.status;
+
+  if (status === "FETCH_ERROR") {
+    return "No internet connection.";
+  }
+
+  if (status === "TIMEOUT_ERROR") {
+    return "Request timed out. Try again.";
+  }
+
+  if (status === 401) {
+    return "Invalid email or password.";
+  }
+
+  if (status === 400) {
+    return "Please check your input data.";
+  }
+
+  return err?.data?.message || "Login failed. Try again later.";
+}
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -20,14 +42,15 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
 
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleLogin = async () => {
     if (isLoading) return;
     try {
       await login({ email, password }).unwrap();
     } catch (e) {
-      console.error("Login failed", e);
+      const errorMessage = getErrorMessage(e);
+      Alert.alert("Login failed", errorMessage);
     }
   };
 
@@ -53,21 +76,13 @@ export default function LoginScreen() {
 
       <PasswordInput value={password} onChangeText={setPassword} />
 
-      {error && (
-        <View style={{ minHeight: 18, marginTop: 8 }}>
-          <Text style={{ color: "red" }}>Invalid email or password</Text>
-        </View>
-      )}
-
       <TouchableOpacity
         style={[styles.button, !canSubmit && { opacity: 0.6 }]}
         onPress={handleLogin}
         disabled={!canSubmit}
       >
         {isLoading && <ActivityIndicator color="#fff" />}
-        <Text style={styles.buttonText}>
-          {isLoading ? "Logging in…" : "Login"}
-        </Text>
+        {!isLoading && <Text style={styles.buttonText}>Login</Text>}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => router.push("/register")}>

@@ -3,7 +3,7 @@ import EditWordModal from "@/src/features/words/components/EditWordModal/EditWor
 import WordsTable from "@/src/features/words/components/WordsTable/WordsTable";
 import { RootState } from "@/src/store/store";
 import { Word } from "@/src/types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useSelector } from "react-redux";
 import { useGetWordsQuery } from "../api/wordsApi";
@@ -34,6 +34,26 @@ export default function HomeScreen({ onAddWord }: HomeScreenProps) {
     },
     { skip: !isInitialized || !token },
   );
+
+  const dashboardHeader = useMemo(
+    () => (
+      <Dashboard
+        open={open}
+        setOpen={setOpen}
+        search={search}
+        setSearch={setSearch}
+        category={category}
+        setCategory={setCategory}
+        verbType={verbType}
+        setVerbType={setVerbType}
+        page={page}
+        setPage={setPage}
+        onAddWord={onAddWord}
+      />
+    ),
+    [open, search, category, verbType, page, onAddWord],
+  );
+
   const handleEdit = (word: Word) => {
     setWordToEdit(word);
     setEditModalVisible(true);
@@ -64,21 +84,7 @@ export default function HomeScreen({ onAddWord }: HomeScreenProps) {
         totalPages={data?.totalPages ?? 1}
         setPage={setPage}
         mode="own"
-        ListHeaderComponent={
-          <Dashboard
-            open={open}
-            setOpen={setOpen}
-            search={search}
-            setSearch={setSearch}
-            category={category}
-            setCategory={setCategory}
-            verbType={verbType}
-            setVerbType={setVerbType}
-            page={page}
-            setPage={setPage}
-            onAddWord={onAddWord}
-          />
-        }
+        ListHeaderComponent={dashboardHeader}
       />
 
       {wordToEdit && (

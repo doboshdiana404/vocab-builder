@@ -1,7 +1,7 @@
 import ArrowHorizontal from "@/assets/icons/arrow-horizontal.svg";
 import ProgressBar from "@/src/components/ui/ProgressBar/ProgressBar";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 import type { WordRowProps } from "./types";
@@ -17,7 +17,6 @@ export default function WordRow({
   mode,
 }: WordRowProps) {
   const btnRef = useRef<View>(null);
-  const [added, setAdded] = useState(false);
 
   const measurePosition = () => {
     if (!btnRef.current) return;
@@ -26,8 +25,7 @@ export default function WordRow({
     });
   };
   const handleAdd = async () => {
-    const result = await onAdd?.(item);
-    if (result) setAdded(true);
+    await onAdd?.(item);
   };
   return (
     <View style={styles.row}>

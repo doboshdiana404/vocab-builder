@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { baseApi } from "../../../store/baseApi";
 import { AuthResponse, LoginRequest, RegisterRequest } from "../types";
 import { setCredentials } from "./authSlice";

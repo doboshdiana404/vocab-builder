@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Alert, FlatList, View } from "react-native";
+import { Alert, FlatList, RefreshControl, View } from "react-native";
 import { wordsTableStyles as styles } from "./WordsTable.styles";
 
 import WordActionsModal from "./WordActionsModal";
@@ -27,7 +27,7 @@ export default function WordsTable({
   const [selectedWord, setSelectedWord] = useState<Word | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalPos, setModalPos] = useState({ top: 0, left: 0 });
-
+  const [refreshing, setRefreshing] = useState(false);
   const [deleteWord] = useDeleteWordMutation();
   const { colWord, colTranslation, colProgress, colActions } =
     useColumnWidths();
@@ -57,6 +57,11 @@ export default function WordsTable({
       mode,
     ],
   );
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await onRefresh?.();
+    setRefreshing(false);
+  };
   const handleDelete = async () => {
     if (!selectedWord) return;
 
@@ -101,6 +106,9 @@ export default function WordsTable({
             onAdd={onAdd}
           />
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
         ListHeaderComponent={header}
         ListFooterComponent={() => (
           <View>

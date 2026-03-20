@@ -26,7 +26,7 @@ export default function EditWordModalAndroid({
   useEffect(() => {
     setUa(word.ua);
     setEn(word.en);
-  }, [word._id]);
+  }, [word._id, word.ua, word.en]);
 
   const handleSave = async () => {
     if (!ua.trim() || !en.trim()) return;

@@ -5,6 +5,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   Text,
   TouchableWithoutFeedback,
   View,
@@ -50,11 +51,11 @@ export default function AuthScreenLayout({
           keyboardVerticalOffset={Platform.OS === "ios" ? -10 : -20}
           style={styles.keyboardContainer}
         >
-          <View style={styles.formContainer}>
+          <ScrollView style={styles.formContainer}>
             <Text style={styles.loginTitle}>{title}</Text>
             <Text style={styles.description}>{description}</Text>
             {children}
-          </View>
+          </ScrollView>
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>

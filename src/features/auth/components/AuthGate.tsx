@@ -28,10 +28,9 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
     })();
   }, [dispatch, isInitialized]);
 
-  const { isFetching, isSuccess, isError, error } = useGetProfileQuery(
-    undefined,
-    { skip: !isInitialized || !token },
-  );
+  const { isSuccess, isError, error } = useGetProfileQuery(undefined, {
+    skip: !isInitialized || !token,
+  });
 
   const status = (error as any)?.status;
   const isAuthError = status === 401 || status === 403;

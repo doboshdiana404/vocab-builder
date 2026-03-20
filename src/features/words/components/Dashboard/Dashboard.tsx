@@ -51,15 +51,15 @@ export default function Dashboard({
 
       if (!category) setCategory(null);
     }
-  }, [categories, isCategoriesLoading]);
+  }, [categories, isCategoriesLoading, category, setCategory]);
   useEffect(() => {
     const timeout = setTimeout(() => setSearch(tempSearch), 400);
     return () => clearTimeout(timeout);
-  }, [tempSearch]);
+  }, [tempSearch, setSearch]);
   useEffect(() => {
     setTempSearch("");
     setSearch("");
-  }, [currentScreen]);
+  }, [currentScreen, setSearch]);
   const handleCategoryChange = (selectedCategory: string | null) => {
     if (selectedCategory === "all") {
       setCategory(null);
